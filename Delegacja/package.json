@@ -1,0 +1,15 @@
+﻿{
+  "name": "TurboDelegacja",
+  "version": "0.0.1",
+  "description": "Turbo Delegacja",
+  "main": "app.js",
+  "author": {
+    "name": "Grupa I",
+    "email": ""
+  },
+  "dependencies": {
+    "express": "3.4.4",
+    "jade": "*",
+	"html-pdf": "*"
+  }
+}
