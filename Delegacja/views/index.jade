@@ -1,24 +1,34 @@
 ﻿extends layout
 
 block content
-  .jumbotron
-    h1 Express
-    p.lead Express is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.
+    br
+    br
+    h1 Logowanie
+        p.lead Użyj danych do zalogowania z systemu UsosWeb
     p
-      a.btn.btn-primary.btn-large(href='http://expressjs.com/') Learn more &raquo;
-  .row
-    .col-md-4
-      h2 Getting started
-      p Express gives you a powerful, patterns-based way to build dynamic websites that enables a clean separation of concerns and gives you full control over markup for enjoyable, agile development.
-      p
-        a.btn.btn-default(href='http://expressjs.com/') Learn more &raquo;
-    .col-md-4
-      h2 Get more libraries
-      p Node Packaged Modules is a repository of software for Node.js.
-      p
-        a.btn.btn-default(href='https://www.npmjs.org/') Learn more &raquo;
-    .col-md-4
-      h2 Microsoft Azure
-      p You can easily publish to Microsoft Azure using Node.js Tools for Visual Studio. Find out how you can host your application using a free trial today.
-      p
-        a.btn.btn-default(href='http://azure.microsoft.com') Learn more &raquo;
+    form.form-horizontal(action='/', method="post", id="loginForm")
+        fieldset
+            // Text input
+            .control-group
+              label.control-label(for='textinput-0') Identyfikator
+              |   
+              .controls
+                input#textinput-0.input-xlarge(name='textinput-0', placeholder='', type='text')
+            // Password input
+            .control-group
+              label.control-label(for='passwordinput-0') Has&lstrok;o
+              |   
+              .controls
+                input#passwordinput-0.input-xlarge(name='passwordinput-0', placeholder='', type='password')
+            .control-group
+
+              .controls
+                label.checkbox.inline(for='multiplecheckboxesinline-0-0')
+                  input#multiplecheckboxesinline-0-0(name='multiplecheckboxesinline-0', value='Zapamiętaj mnie!', type='checkbox')
+                  |       Zapamiętaj mnie!
+            // Button
+            .control-group
+              label.control-label(for='singlebutton-0')
+              |   
+              .controls
+                button#singlebutton-0.btn.btn-primary(name='singlebutton-0') Zaloguj
