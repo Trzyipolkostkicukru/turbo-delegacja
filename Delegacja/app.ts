@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', routes.index);
 app.post('/', function (req, res) {
     console.log(req.body);
-    res.send('/logged');
+    res.redirect('logged');
 });
 app.get('/about', routes.about);
 app.get('/contact', routes.contact);
