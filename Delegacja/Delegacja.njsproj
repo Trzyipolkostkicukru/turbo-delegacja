@@ -62,11 +62,13 @@
     <Content Include="public\javascripts\jquery-1.10.2.min.map" />
     <Content Include="public\stylesheets\bootstrap.css" />
     <Content Include="public\stylesheets\bootstrap.min.css" />
-    <Content Include="public\stylesheets\style.styl" />
+    <Content Include="public\stylesheets\style.css" />
     <Content Include="README.md" />
     <Content Include="views\loggedLayout.jade" />
     <Content Include="views\logged.jade" />
     <Content Include="views\contact.jade" />
+    <Content Include="views\wniosek_auto_przebieg.jade" />
+    <Content Include="views\wniosek_auto.jade" />
     <Content Include="views\wniosek.jade" />
     <Content Include="views\about.jade" />
     <Content Include="views\index.jade" />

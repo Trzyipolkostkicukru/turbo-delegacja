@@ -1,0 +1,115 @@
+extends loggedLayout
+
+block content
+    br
+    br
+    h1 Przebieg auta
+    p
+    .container
+      .form-group
+        label
+          h3
+            | Ewidencja przebiegu pojazdu
+            br
+          |           Jednostka organizacyjna:
+        select.form-control
+          option(value='1')
+            | XYZ
+          option(value='2')
+            | XYZ
+          option(value='')
+          option(value='')
+      .form-group
+      .form-group
+        label
+          | Numer wyjazdu sluzbowego:
+        input.form-control(type='text')
+      table.table-bordered
+        tbody
+          tr
+            th.tg-031e(style='padding-left:5px; padding-right:5px')
+              | Data wyjazdu
+              br
+            th.tg-031e(style='padding-left:5px; padding-right:5px')
+              | Opis trasy wyjazdu
+              br
+              | (skad - dokad)
+              br
+            th.tg-031e(style='padding-left:5px; padding-right:5px')
+              | Cel wyjazdu
+              br
+            th.tg-031e(style='padding-left:5px; padding-right:5px')
+              | Liczba faktycznie przejechanych kilometrow
+              br
+            th.tg-031e(style='padding-left:5px; padding-right:5px')
+              | Stawka za 1 kilometr przebiegu
+              br
+            th.tg-031e(style='padding-left:5px; padding-right:5px')
+              | Wartosc
+              br
+            th.tg-031e(style='padding-left:5px; padding-right:5px') Uwagi
+          tr(style='height:40px')
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e 
+          tr(style='height:40px')
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e 
+          tr(style='height:40px')
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e 
+          tr(style='height:40px')
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e 
+          tr(style='height:40px')
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e 
+          tr(style='height:40px')
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e 
+      .form-group
+      a.btn.btn-default(href='#') Wyslij przebieg pojazdu!
+      script. 
+        $("table tbody tr td").bind("click", dataClick); 
+        function dataClick(e) 
+        { 
+            console.log(e); 
+            if (e.currentTarget.innerHTML != "") return; 
+            if(e.currentTarget.contentEditable != null)
+            { 
+                $(e.currentTarget).attr("contentEditable",true); 
+            }
+             else
+            { 
+                $(e.currentTarget).append("<input type='text'>"); 
+            } 
+        }

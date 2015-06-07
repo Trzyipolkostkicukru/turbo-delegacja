@@ -1,0 +1,57 @@
+extends loggedLayout
+
+block content
+    br
+    br
+    h1 Wniosek o auto
+    p
+        br
+      .form-group
+        label
+        .form-group
+          label
+            | Pracodawca reprezentujacy Politechnike:
+          select.form-control
+            option(value='1')
+              | Pan X
+            option(value='2')
+              | Pan Y
+            option(value='3')
+              | Pan Z
+            option(value='')
+      .form-group
+        label
+          | Wybierz pojazd:
+        select.form-control
+          option(value='1')
+            | Ford Focus 1.6
+          option(value='2')
+            | Volkswagen Golf 1.9
+          option(value='')
+          option(value='')
+      .form-group
+        label
+          | Miejsce podrozy:
+        input.form-control(type='text')
+        .form-group
+          label
+            | Czas podrozy
+          input.form-control(type='text')
+          .form-group
+            label
+              | Iloczyn przejechanych kilometrow przez stawke:
+            input.form-control(placeholder='zl/km', type='text')
+      .form-group
+        label
+          | Numer polecenia wyjazdu sluzbowego:
+        input.form-control(type='text')
+      .form-group
+        label
+          | Umowa od dnia:
+        input.form-control(placeholder='DD.MM.RR', type='text')
+      .form-group
+        label
+          | Umowa do dnia:
+        input.form-control(placeholder='DD.MM.RR', type='text')
+      a.btn.pull-left.btn-default(href='#') Wyslij wniosek.
+    br

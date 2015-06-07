@@ -11,6 +11,14 @@ export function wniosek(req: express.Request, res: express.Response) {
     res.render('wniosek', { title: 'Wniosek', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o służbową delegację.' });
 };
 
+export function wniosek_auto(req: express.Request, res: express.Response) {
+    res.render('wniosek_auto', { title: 'Wniosek Auto', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o auto.' });
+};
+
+export function wniosek_auto_przebieg(req: express.Request, res: express.Response) {
+    res.render('wniosek_auto_przebieg', { title: 'Przebieg auta', year: new Date().getFullYear(), ver: version, message: 'Wypełnij przebieg auta.' });
+};
+
 export function contact(req: express.Request, res: express.Response) {
     res.render('contact', { title: 'Kontakt', year: new Date().getFullYear(), ver: version, message: 'Gdzie nas można złapać?' });
 };
