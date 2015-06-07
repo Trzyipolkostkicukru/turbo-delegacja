@@ -25,6 +25,7 @@ app.get('/wniosek', routes.wniosek);
 app.get('/logged', routes.logged);
 app.get('/wniosek_auto', routes.wniosek_auto);
 app.get('/wniosek_auto_przebieg', routes.wniosek_auto_przebieg);
+app.get('/wniosek_zaliczka', routes.wniosek_zaliczka);
 http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
 });

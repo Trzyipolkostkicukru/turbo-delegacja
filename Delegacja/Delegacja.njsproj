@@ -67,6 +67,7 @@
     <Content Include="views\loggedLayout.jade" />
     <Content Include="views\logged.jade" />
     <Content Include="views\contact.jade" />
+    <Content Include="views\wniosek_zaliczka.jade" />
     <Content Include="views\wniosek_auto_przebieg.jade" />
     <Content Include="views\wniosek_auto.jade" />
     <Content Include="views\wniosek.jade" />

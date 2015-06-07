@@ -14,6 +14,11 @@ function wniosek_auto(req, res) {
 }
 exports.wniosek_auto = wniosek_auto;
 ;
+function wniosek_zaliczka(req, res) {
+    res.render('wniosek_zaliczka', { title: 'Wniosek Zaliczka', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o zaliczkę.' });
+}
+exports.wniosek_zaliczka = wniosek_zaliczka;
+;
 function wniosek_auto_przebieg(req, res) {
     res.render('wniosek_auto_przebieg', { title: 'Przebieg auta', year: new Date().getFullYear(), ver: version, message: 'Wypełnij przebieg auta.' });
 }
