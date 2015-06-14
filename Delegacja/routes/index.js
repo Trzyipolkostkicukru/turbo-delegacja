@@ -7,29 +7,29 @@ function index(req, res) {
 exports.index = index;
 ;
 function wniosek(req, res) {
-    res.render('wniosek', { title: 'Wniosek', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o służbową delegację.' });
+    res.render('wniosek/wniosek', { title: 'Wniosek', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o służbową delegację.' });
 }
 exports.wniosek = wniosek;
 ;
 function wniosek_auto(req, res) {
-    res.render('wniosek_auto', { title: 'Wniosek Auto', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o auto.' });
+    res.render('wniosek/wniosek_auto', { title: 'Wniosek Auto', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o auto.' });
 }
 exports.wniosek_auto = wniosek_auto;
 ;
 function pdf_auto(req, res) {
-    res.render('wniosek_auto', { title: 'Wniosek Auto', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o auto.' }, function (err, html) {
+    res.render('wniosek/wniosek_auto', { title: 'Wniosek Auto', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o auto.' }, function (err, html) {
         pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
     });
 }
 exports.pdf_auto = pdf_auto;
 ;
 function wniosek_zaliczka(req, res) {
-    res.render('wniosek_zaliczka', { title: 'Wniosek Zaliczka', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o zaliczkę.' });
+    res.render('wniosek/wniosek_zaliczka', { title: 'Wniosek Zaliczka', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o zaliczkę.' });
 }
 exports.wniosek_zaliczka = wniosek_zaliczka;
 ;
 function wniosek_auto_przebieg(req, res) {
-    res.render('wniosek_auto_przebieg', { title: 'Przebieg auta', year: new Date().getFullYear(), ver: version, message: 'Wypełnij przebieg auta.' });
+    res.render('wniosek/wniosek_auto_przebieg', { title: 'Przebieg auta', year: new Date().getFullYear(), ver: version, message: 'Wypełnij przebieg auta.' });
 }
 exports.wniosek_auto_przebieg = wniosek_auto_przebieg;
 ;
