@@ -5,8 +5,7 @@ block content
     br
     h1 Wniosek o auto
     p
-    br
-    form(action="/pdf_auto", method="post")
+    form(name="auto", action="/wniosekAutoNew", method="post")
       .form-group
         label
         .form-group
@@ -54,6 +53,4 @@ block content
         label
           | Umowa do dnia:
         input.form-control(placeholder='DD.MM.RR', type='text')
-      a.btn.pull-left.btn-submit Wyślij wniosek.
-      input(type="submit", value="q")
-    br
+br

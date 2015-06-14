@@ -1,0 +1,15 @@
+extends ../loggedLayout
+
+block content
+    br
+    br
+    form(name="auto", action="/wniosekPotwierdzenieNew", method="post")
+        .container
+            h3
+                | Oświadczenie
+              .form-group
+                label
+                  | Podaj numer identyfikacyjny delegacji:     
+                input.form-control(type='text')  
+              button.btn.btn-default(type='submit') Wystaw potwierdzenie
+              br

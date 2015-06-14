@@ -50,6 +50,17 @@ export function pdf_przebieg(req: express.Request, res: express.Response) {
     });
 };
 
+export function wniosek_potwierdzenie(req: express.Request, res: express.Response) {
+    res.render('wniosek/wniosek_potwierdzenie', { title: 'Potwierdzenie wyjazdu', year: new Date().getFullYear(), ver: version, message: 'Wystaw oświadczenie.' });
+};
+
+export function pdf_potwierdzenie(req: express.Request, res: express.Response) {
+    res.render('pdf/potwierdzenie', {}, function (err, html) {
+        pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
+    });
+};
+
+
 export function contact(req: express.Request, res: express.Response) {
     res.render('contact', { title: 'Kontakt', year: new Date().getFullYear(), ver: version, message: 'Gdzie nas można złapać?' });
 };
@@ -60,12 +71,4 @@ export function about(req: express.Request, res: express.Response) {
 
 export function logged(req: express.Request, res: express.Response) {
     res.render('logged', { title: 'Strefa Turbo Delegacji', year: new Date().getFullYear(), ver: version, message: 'Witamy!' });
-};
-
-
-
-export function pdf_potwierdzenie(req: express.Request, res: express.Response) {
-    res.render('pdf/potwierdzenie', {}, function (err, html) {
-        pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
-    });
 };
