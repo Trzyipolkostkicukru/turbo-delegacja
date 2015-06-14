@@ -54,6 +54,18 @@ function pdf_przebieg(req, res) {
 }
 exports.pdf_przebieg = pdf_przebieg;
 ;
+function wniosek_potwierdzenie(req, res) {
+    res.render('wniosek/wniosek_potwierdzenie', { title: 'Potwierdzenie wyjazdu', year: new Date().getFullYear(), ver: version, message: 'Wystaw oświadczenie.' });
+}
+exports.wniosek_potwierdzenie = wniosek_potwierdzenie;
+;
+function pdf_potwierdzenie(req, res) {
+    res.render('pdf/potwierdzenie', {}, function (err, html) {
+        pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
+    });
+}
+exports.pdf_potwierdzenie = pdf_potwierdzenie;
+;
 function contact(req, res) {
     res.render('contact', { title: 'Kontakt', year: new Date().getFullYear(), ver: version, message: 'Gdzie nas można złapać?' });
 }
@@ -68,12 +80,5 @@ function logged(req, res) {
     res.render('logged', { title: 'Strefa Turbo Delegacji', year: new Date().getFullYear(), ver: version, message: 'Witamy!' });
 }
 exports.logged = logged;
-;
-function pdf_potwierdzenie(req, res) {
-    res.render('pdf/potwierdzenie', {}, function (err, html) {
-        pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
-    });
-}
-exports.pdf_potwierdzenie = pdf_potwierdzenie;
 ;
 //# sourceMappingURL=index.js.map

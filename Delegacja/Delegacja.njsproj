@@ -81,6 +81,7 @@
     <Content Include="views\pdf\przebieg.jade" />
     <Content Include="views\pdf\wyjadowy.jade" />
     <Content Include="views\pdf\zaliczka.jade" />
+    <Content Include="views\wniosek\wniosek_potwierdzenie.jade" />
     <Content Include="views\wniosek\wniosek_wyjazdowy.jade" />
     <Content Include="views\wniosek\wniosek_auto.jade" />
     <Content Include="views\wniosek\wniosek_auto_przebieg.jade" />

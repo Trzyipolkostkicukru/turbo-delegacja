@@ -26,11 +26,13 @@ app.get('/logged', routes.logged);
 app.get('/wniosek_auto', routes.wniosek_auto);
 app.get('/wniosek_auto_przebieg', routes.wniosek_auto_przebieg);
 app.get('/wniosek_zaliczka', routes.wniosek_zaliczka);
+app.get('/wniosek_potwierdzenie', routes.wniosek_potwierdzenie);
 app.get('/pdf_wyjazdowy', routes.pdf_wyjazdowy);
 app.get('/pdf_potwierdzenie', routes.pdf_potwierdzenie);
 app.get('/pdf_auto', routes.pdf_auto);
 app.get('/pdf_przebieg', routes.pdf_przebieg);
 app.get('/pdf_zaliczka', routes.pdf_zaliczka);
+app.get('/pdf_potwierdzenie', routes.pdf_potwierdzenie);
 http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
 });
