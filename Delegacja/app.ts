@@ -23,6 +23,21 @@ app.post('/', function (req, res) {
     console.log(req.body);
     res.redirect('logged');
 });
+app.post('/wniosekAutoNew', function (req, res) {
+    res.redirect('pdf_auto');
+});
+app.post('/wniosekAutoPrzebiegNew', function (req, res) {
+    res.redirect('pdf_przebieg');
+});
+app.post('/wniosekPotwierdzenieNew', function (req, res) {
+    res.redirect('pdf_potwierdzenie');
+});
+app.post('/wniosekWyjazdNew', function (req, res) {
+    res.redirect('pdf_wyjazdowy');
+});
+app.post('/wniosekZaliczkaNew', function (req, res) {
+    res.redirect('pdf_zaliczka');
+});
 app.get('/about', routes.about);
 app.get('/contact', routes.contact);
 app.get('/wniosek_wyjazdowy', routes.wniosek_wyjazdowy);

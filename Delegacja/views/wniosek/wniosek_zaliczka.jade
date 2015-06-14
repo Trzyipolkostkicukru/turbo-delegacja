@@ -3,80 +3,81 @@ extends ../loggedLayout
 block content
     br
     br
-    .page-header.text-left
-      h3
-        b Wniosek o zaliczkę
-    .form-group
-      label
-        | Zaliczka tytułem wyjazdu służbowego do:
-      input.form-control(type='text')
-    .form-group
-      label
-        | Data wyjazdu:
-      input.form-control(type='text')
-    .form-group
-      label
-        | Data powrotu:
-      input.form-control(type='text')
-      br
-      style(type='text/css').
-        .tg  {border-collapse:collapse;border-spacing:0;margin:0px auto;}
-        .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 10px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-        .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 10px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-        .tg .tg-e3zv{font-weight:bold}
-        @media screen and (max-width: 767px) {.tg {width: auto !important;}.tg col {width: auto !important;}.tg-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;margin: auto 0px;}}
-      .tg-wrap
-        table.tg(style='undefined;table-layout: fixed; width: 960px')
-          colgroup
-            col(style='width: 240px')
-            col(style='width: 240px')
-            col(style='width: 240px')
-            col(style='width: 240px')
-          tr
-            th.tg-e3zv Specyfikacja
-            th.tg-e3zv Ilość
-            th.tg-e3zv Wysokość należności
-            th.tg-e3zv Wartość
-          tr
-            td.tg-031e 1. Diety
-            td.tg-031e
-            td.tg-031e
-            td.tg-031e
-          tr
-            td.tg-031e 2. Hotele
-            td.tg-031e
-            td.tg-031e
-            td.tg-031e
-          tr
-            td.tg-031e 3. Dieta dojazdowa
-            td.tg-031e
-            td.tg-031e
-            td.tg-031e
-          tr
-            td.tg-031e 4. Ryczałt za dojazdy
-            td.tg-031e
-            td.tg-031e
-            td.tg-031e
-          tr
-            td.tg-031e 5. Opłata rejestracyjna
-            td.tg-031e
-            td.tg-031e
-            td.tg-031e
-          tr
-            td.tg-031e 6. Bilety kolejowe
-            td.tg-031e
-            td.tg-031e
-            td.tg-031e
-          tr
-            td.tg-e3zv(colspan='2') Waluta:
-            td.tg-e3zv Razem:
-            td.tg-031e
-          tr
-            td.tg-031e(colspan='2')
-            td.tg-e3zv Do wpłaty:
-            td.tg-031e
-      .form-group
-      a.btn.btn-default(href='#') Wyślij wniosek o zaliczkę
+    form(name="auto", action="/wniosekZaliczkaNew", method="post")
+        .page-header.text-left
+          h3
+            b Wniosek o zaliczkę
+        .form-group
+          label
+            | Zaliczka tytułem wyjazdu służbowego do:
+          input.form-control(type='text')
+        .form-group
+          label
+            | Data wyjazdu:
+          input.form-control(type='text')
+        .form-group
+          label
+            | Data powrotu:
+          input.form-control(type='text')
+          br
+          style(type='text/css').
+            .tg  {border-collapse:collapse;border-spacing:0;margin:0px auto;}
+            .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 10px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+            .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 10px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+            .tg .tg-e3zv{font-weight:bold}
+            @media screen and (max-width: 767px) {.tg {width: auto !important;}.tg col {width: auto !important;}.tg-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;margin: auto 0px;}}
+          .tg-wrap
+            table.tg(style='undefined;table-layout: fixed; width: 960px')
+              colgroup
+                col(style='width: 240px')
+                col(style='width: 240px')
+                col(style='width: 240px')
+                col(style='width: 240px')
+              tr
+                th.tg-e3zv Specyfikacja
+                th.tg-e3zv Ilość
+                th.tg-e3zv Wysokość należności
+                th.tg-e3zv Wartość
+              tr
+                td.tg-031e 1. Diety
+                td.tg-031e
+                td.tg-031e
+                td.tg-031e
+              tr
+                td.tg-031e 2. Hotele
+                td.tg-031e
+                td.tg-031e
+                td.tg-031e
+              tr
+                td.tg-031e 3. Dieta dojazdowa
+                td.tg-031e
+                td.tg-031e
+                td.tg-031e
+              tr
+                td.tg-031e 4. Ryczałt za dojazdy
+                td.tg-031e
+                td.tg-031e
+                td.tg-031e
+              tr
+                td.tg-031e 5. Opłata rejestracyjna
+                td.tg-031e
+                td.tg-031e
+                td.tg-031e
+              tr
+                td.tg-031e 6. Bilety kolejowe
+                td.tg-031e
+                td.tg-031e
+                td.tg-031e
+              tr
+                td.tg-e3zv(colspan='2') Waluta:
+                td.tg-e3zv Razem:
+                td.tg-031e
+              tr
+                td.tg-031e(colspan='2')
+                td.tg-e3zv Do wpłaty:
+                td.tg-031e
+          .form-group
+          button.btn.btn-default(type='submit') Wyślij wniosek o zaliczkę
       script. 
         $("table tbody tr td").bind("click", dataClick); 
         function dataClick(e) 
