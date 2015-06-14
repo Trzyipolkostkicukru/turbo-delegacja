@@ -21,12 +21,13 @@ app.post('/', function (req, res) {
 });
 app.get('/about', routes.about);
 app.get('/contact', routes.contact);
-app.get('/wniosek', routes.wniosek);
+app.get('/wniosek_wyjazdowy', routes.wniosek_wyjazdowy);
 app.get('/logged', routes.logged);
 app.get('/wniosek_auto', routes.wniosek_auto);
 app.get('/wniosek_auto_przebieg', routes.wniosek_auto_przebieg);
 app.get('/wniosek_zaliczka', routes.wniosek_zaliczka);
-//testowe
+app.get('/pdf_wyjazdowy', routes.pdf_wyjazdowy);
+app.get('/pdf_potwierdzenie', routes.pdf_potwierdzenie);
 app.get('/pdf_auto', routes.pdf_auto);
 app.get('/pdf_przebieg', routes.pdf_przebieg);
 app.get('/pdf_zaliczka', routes.pdf_zaliczka);

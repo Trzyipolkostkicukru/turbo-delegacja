@@ -9,8 +9,14 @@ export function index(req: express.Request, res: express.Response) {
     res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
 };
 
-export function wniosek(req: express.Request, res: express.Response) {
-    res.render('wniosek/wniosek', { title: 'Wniosek', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o służbową delegację.' });
+export function wniosek_wyjazdowy(req: express.Request, res: express.Response) {
+    res.render('wniosek/wniosek_wyjazdowy', { title: 'Wniosek', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o służbową delegację.' });
+};
+
+export function pdf_wyjazdowy(req: express.Request, res: express.Response) {
+    res.render('pdf/wyjazdowy', {}, function (err, html) {
+        pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
+    });
 };
 
 export function wniosek_auto(req: express.Request, res: express.Response) {
@@ -18,7 +24,7 @@ export function wniosek_auto(req: express.Request, res: express.Response) {
 };
 
 export function pdf_auto(req: express.Request, res: express.Response) {
-    res.render('wniosek/wniosek_auto', { title: 'Wniosek Auto', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o auto.' }, function (err, html) {
+    res.render('pdf/auto', {}, function (err, html) {
         pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
     });
 };
@@ -40,7 +46,6 @@ export function wniosek_auto_przebieg(req: express.Request, res: express.Respons
 export function pdf_przebieg(req: express.Request, res: express.Response) {
     res.render('pdf/przebieg', {}, function (err, html) {
         pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
-        process.stdout.write("przebieguje");
     });
 };
 
@@ -56,3 +61,10 @@ export function logged(req: express.Request, res: express.Response) {
     res.render('logged', { title: 'Strefa Turbo Delegacji', year: new Date().getFullYear(), ver: version, message: 'Witamy!' });
 };
 
+
+
+export function pdf_potwierdzenie(req: express.Request, res: express.Response) {
+    res.render('pdf/potwierdzenie', {}, function (err, html) {
+        pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
+    });
+};
