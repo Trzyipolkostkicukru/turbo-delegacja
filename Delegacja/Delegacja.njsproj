@@ -70,8 +70,12 @@
     <Content Include="views\about.jade" />
     <Content Include="views\index.jade" />
     <Content Include="views\layout.jade" />
+    <Content Include="views\pdf\auto.jade" />
+    <Content Include="views\pdf\html\auto.html" />
+    <Content Include="views\pdf\html\potwierdzenie.html" />
     <Content Include="views\pdf\html\przebieg.html" />
     <Content Include="views\pdf\html\zaliczka.html" />
+    <Content Include="views\pdf\potwierdzenie.jade" />
     <Content Include="views\pdf\przebieg.jade" />
     <Content Include="views\pdf\zaliczka.jade" />
     <Content Include="views\wniosek\wniosek.jade" />

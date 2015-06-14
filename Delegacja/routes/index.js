@@ -17,7 +17,7 @@ function wniosek_auto(req, res) {
 exports.wniosek_auto = wniosek_auto;
 ;
 function pdf_auto(req, res) {
-    res.render('wniosek/wniosek_auto', { title: 'Wniosek Auto', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o auto.' }, function (err, html) {
+    res.render('pdf/auto', {}, function (err, html) {
         pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
     });
 }
@@ -43,7 +43,6 @@ exports.wniosek_auto_przebieg = wniosek_auto_przebieg;
 function pdf_przebieg(req, res) {
     res.render('pdf/przebieg', {}, function (err, html) {
         pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
-        process.stdout.write("przebieguje");
     });
 }
 exports.pdf_przebieg = pdf_przebieg;
@@ -62,5 +61,12 @@ function logged(req, res) {
     res.render('logged', { title: 'Strefa Turbo Delegacji', year: new Date().getFullYear(), ver: version, message: 'Witamy!' });
 }
 exports.logged = logged;
+;
+function pdf_potwierdzenie(req, res) {
+    res.render('pdf/potwierdzenie', {}, function (err, html) {
+        pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
+    });
+}
+exports.pdf_potwierdzenie = pdf_potwierdzenie;
 ;
 //# sourceMappingURL=index.js.map
