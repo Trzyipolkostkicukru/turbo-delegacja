@@ -70,6 +70,10 @@
     <Content Include="views\about.jade" />
     <Content Include="views\index.jade" />
     <Content Include="views\layout.jade" />
+    <Content Include="views\pdf\html\przebieg.html" />
+    <Content Include="views\pdf\html\zaliczka.html" />
+    <Content Include="views\pdf\przebieg.jade" />
+    <Content Include="views\pdf\zaliczka.jade" />
     <Content Include="views\wniosek\wniosek.jade" />
     <Content Include="views\wniosek\wniosek_auto.jade" />
     <Content Include="views\wniosek\wniosek_auto_przebieg.jade" />
@@ -89,6 +93,7 @@
     <Folder Include="Scripts\typings\stylus\" />
     <Folder Include="views\" />
     <Folder Include="views\pdf\" />
+    <Folder Include="views\pdf\html\" />
     <Folder Include="views\wniosek\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
