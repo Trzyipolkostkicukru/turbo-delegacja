@@ -9,8 +9,14 @@ export function index(req: express.Request, res: express.Response) {
     res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
 };
 
-export function wniosek(req: express.Request, res: express.Response) {
-    res.render('wniosek/wniosek', { title: 'Wniosek', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o służbową delegację.' });
+export function wniosek_wyjazdowy(req: express.Request, res: express.Response) {
+    res.render('wniosek/wniosek_wyjazdowy', { title: 'Wniosek', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o służbową delegację.' });
+};
+
+export function pdf_wyjazdowy(req: express.Request, res: express.Response) {
+    res.render('pdf/wyjazdowy', {}, function (err, html) {
+        pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
+    });
 };
 
 export function wniosek_auto(req: express.Request, res: express.Response) {

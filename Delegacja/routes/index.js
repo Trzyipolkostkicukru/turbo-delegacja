@@ -6,10 +6,17 @@ function index(req, res) {
 }
 exports.index = index;
 ;
-function wniosek(req, res) {
-    res.render('wniosek/wniosek', { title: 'Wniosek', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o służbową delegację.' });
+function wniosek_wyjazdowy(req, res) {
+    res.render('wniosek/wniosek_wyjazdowy', { title: 'Wniosek', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o służbową delegację.' });
 }
-exports.wniosek = wniosek;
+exports.wniosek_wyjazdowy = wniosek_wyjazdowy;
+;
+function pdf_wyjazdowy(req, res) {
+    res.render('pdf/wyjazdowy', {}, function (err, html) {
+        pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
+    });
+}
+exports.pdf_wyjazdowy = pdf_wyjazdowy;
 ;
 function wniosek_auto(req, res) {
     res.render('wniosek/wniosek_auto', { title: 'Wniosek Auto', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o auto.' });

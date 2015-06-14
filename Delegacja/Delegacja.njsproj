@@ -74,9 +74,11 @@
     <Content Include="views\pdf\html\auto.html" />
     <Content Include="views\pdf\html\potwierdzenie.html" />
     <Content Include="views\pdf\html\przebieg.html" />
+    <Content Include="views\pdf\html\wyjazdowy.html" />
     <Content Include="views\pdf\html\zaliczka.html" />
     <Content Include="views\pdf\potwierdzenie.jade" />
     <Content Include="views\pdf\przebieg.jade" />
+    <Content Include="views\pdf\wyjadowy.jade" />
     <Content Include="views\pdf\zaliczka.jade" />
     <Content Include="views\wniosek\wniosek.jade" />
     <Content Include="views\wniosek\wniosek_auto.jade" />
