@@ -25,6 +25,7 @@ export function wniosek_auto(req: express.Request, res: express.Response) {
 
 export function pdf_auto(req: express.Request, res: express.Response) {
     res.render('pdf/auto', {}, function (err, html) {
+        process.stdout.write(req.param("aaa", "fff"));
         pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
     });
 };

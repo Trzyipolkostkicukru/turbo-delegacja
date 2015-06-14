@@ -5,13 +5,14 @@ block content
     br
     h1 Wniosek o auto
     p
-        br
+    br
+    form(action="/pdf_auto", method="post")
       .form-group
         label
         .form-group
           label
             | Pracodawca reprezentujący Politechnikę:
-          select.form-control
+          select.form-control(name="aaa")
             option(value='1')
               | Pan X
             option(value='2')
@@ -53,5 +54,6 @@ block content
         label
           | Umowa do dnia:
         input.form-control(placeholder='DD.MM.RR', type='text')
-      a.btn.pull-left.btn-default(href='#') Wyślij wniosek.
+      a.btn.pull-left.btn-submit Wyślij wniosek.
+      input(type="submit", value="q")
     br
