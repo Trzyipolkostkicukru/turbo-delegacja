@@ -27,3 +27,6 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 *.vssscc
 $tf*/
+
+Delegacja/.ntvs_analysis.dat
+*.js.map
