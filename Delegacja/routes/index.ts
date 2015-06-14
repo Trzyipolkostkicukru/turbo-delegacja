@@ -27,8 +27,21 @@ export function wniosek_zaliczka(req: express.Request, res: express.Response) {
     res.render('wniosek/wniosek_zaliczka', { title: 'Wniosek Zaliczka', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o zaliczkę.' });
 };
 
+export function pdf_zaliczka(req: express.Request, res: express.Response) {
+    res.render('pdf/zaliczka', {}, function (err, html) {
+        pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
+    });
+};
+
 export function wniosek_auto_przebieg(req: express.Request, res: express.Response) {
     res.render('wniosek/wniosek_auto_przebieg', { title: 'Przebieg auta', year: new Date().getFullYear(), ver: version, message: 'Wypełnij przebieg auta.' });
+};
+
+export function pdf_przebieg(req: express.Request, res: express.Response) {
+    res.render('pdf/przebieg', {}, function (err, html) {
+        pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
+        process.stdout.write("przebieguje");
+    });
 };
 
 export function contact(req: express.Request, res: express.Response) {

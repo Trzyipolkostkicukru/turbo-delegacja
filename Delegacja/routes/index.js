@@ -28,10 +28,25 @@ function wniosek_zaliczka(req, res) {
 }
 exports.wniosek_zaliczka = wniosek_zaliczka;
 ;
+function pdf_zaliczka(req, res) {
+    res.render('pdf/zaliczka', {}, function (err, html) {
+        pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
+    });
+}
+exports.pdf_zaliczka = pdf_zaliczka;
+;
 function wniosek_auto_przebieg(req, res) {
     res.render('wniosek/wniosek_auto_przebieg', { title: 'Przebieg auta', year: new Date().getFullYear(), ver: version, message: 'Wypełnij przebieg auta.' });
 }
 exports.wniosek_auto_przebieg = wniosek_auto_przebieg;
+;
+function pdf_przebieg(req, res) {
+    res.render('pdf/przebieg', {}, function (err, html) {
+        pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
+        process.stdout.write("przebieguje");
+    });
+}
+exports.pdf_przebieg = pdf_przebieg;
 ;
 function contact(req, res) {
     res.render('contact', { title: 'Kontakt', year: new Date().getFullYear(), ver: version, message: 'Gdzie nas można złapać?' });
