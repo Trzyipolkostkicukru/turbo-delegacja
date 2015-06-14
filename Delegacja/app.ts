@@ -32,6 +32,11 @@ app.get('/wniosek_auto_przebieg', routes.wniosek_auto_przebieg);
 app.get('/wniosek_zaliczka', routes.wniosek_zaliczka);
 
 
+
+//testowe
+app.get('/pdf_auto', routes.pdf_auto);
+
+
 http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
 });

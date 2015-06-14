@@ -1,4 +1,6 @@
 var version = "0.0.1";
+var pdfCrowd = require('pdfcrowd');
+var pdfCrowdClient = new pdfCrowd.Pdfcrowd('biedronka', 'c9225df149b2469749d20b34c928cdff');
 function index(req, res) {
     res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
 }
@@ -13,6 +15,13 @@ function wniosek_auto(req, res) {
     res.render('wniosek_auto', { title: 'Wniosek Auto', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o auto.' });
 }
 exports.wniosek_auto = wniosek_auto;
+;
+function pdf_auto(req, res) {
+    res.render('wniosek_auto', { title: 'Wniosek Auto', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o auto.' }, function (err, html) {
+        pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
+    });
+}
+exports.pdf_auto = pdf_auto;
 ;
 function wniosek_zaliczka(req, res) {
     res.render('wniosek_zaliczka', { title: 'Wniosek Zaliczka', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o zaliczkę.' });
