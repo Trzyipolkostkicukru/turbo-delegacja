@@ -5,4 +5,42 @@ block content
     br
     h1 #{title}
         p.lead #{message}
-    p
+    p       
+    .container
+      .row
+        .col-sm-3.col-md-3
+          #accordion.panel-group
+            .panel.panel-default
+              .panel-heading
+                h4.panel-title
+                  a(data-toggle='collapse', data-parent='#accordion', href='#collapseOne')
+                    span.glyphicon.glyphicon-folder-close
+                    | Wnioski
+              #collapseOne.panel-collapse.collapse.in
+                .panel-body
+                  table.table
+                    tr
+                      td
+                        span.glyphicon.glyphicon-pencil.text-primary
+                        a(href='/wniosek') Wniosek o delegację
+                    tr
+                      td
+                        span.glyphicon.glyphicon-flash.text-success
+                        a(href='/wniosek_auto') Wniosek o użycie auta
+                    tr
+                      td
+                        span.glyphicon.glyphicon-file.text-info
+                        a(href='/wniosek_zaliczka') Wniosek o zaliczkę
+            .panel.panel-default
+              .panel-heading
+                h4.panel-title
+                  a(data-toggle='collapse', data-parent='#accordion', href='#collapseFour')
+                    span.glyphicon.glyphicon-file
+                    | Pozostałe
+              #collapseFour.panel-collapse.collapse
+                .panel-body
+                  table.table
+                    tr
+                      td
+                        span.glyphicon.glyphicon-usd
+                        a(href='/wniosek_auto_przebieg') Przebieg auta
