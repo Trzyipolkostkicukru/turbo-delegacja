@@ -22,7 +22,7 @@ block content
       .form-group
       .form-group
         label
-          | Numer wyjazdu sluzbowego:
+          | Numer wyjazdu służbowego:
         input.form-control(type='text')
       table.table-bordered
         tbody
@@ -33,7 +33,7 @@ block content
             th.tg-031e(style='padding-left:5px; padding-right:5px')
               | Opis trasy wyjazdu
               br
-              | (skad - dokad)
+              | (skąd - dokąd)
               br
             th.tg-031e(style='padding-left:5px; padding-right:5px')
               | Cel wyjazdu
@@ -45,7 +45,7 @@ block content
               | Stawka za 1 kilometr przebiegu
               br
             th.tg-031e(style='padding-left:5px; padding-right:5px')
-              | Wartosc
+              | Wartość
               br
             th.tg-031e(style='padding-left:5px; padding-right:5px') Uwagi
           tr(style='height:40px')
@@ -97,7 +97,7 @@ block content
             td.tg-031e
             td.tg-031e 
       .form-group
-      a.btn.btn-default(href='#') Wyslij przebieg pojazdu!
+      a.btn.btn-default(href='#') Wyślij przebieg pojazdu!
       script. 
         $("table tbody tr td").bind("click", dataClick); 
         function dataClick(e) 

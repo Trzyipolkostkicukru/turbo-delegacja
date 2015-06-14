@@ -3,7 +3,7 @@ extends loggedLayout
 block content
     br
     br
-    h1 Wniosek o delegacje
+    h1 Wniosek o delegację
     p
     .container
       .form-group
@@ -20,7 +20,7 @@ block content
         input.form-control(type='text')
       .form-group
         label
-          | Osrodek przyjmujacy, Organizator:
+          | Ośrodek przyjmujący, Organizator:
         input.form-control(type='text')
         .form-group
       .form-group
@@ -38,7 +38,7 @@ block content
               option(value='')
           .form-group
             label
-              | Miejscowosc:
+              | Miejscowość:
             select.form-control
               option(value='1')
                 | X
@@ -51,11 +51,11 @@ block content
         input.form-control(type='text')
       .form-group
         label
-          | Srodki lokomocji:
+          | Środki lokomocji:
         input.form-control(type='text')
       .form-group
         label
-          | Zrodlo finansowania:
+          | Źrodło finansowania:
         input.form-control(type='text')
       table.table-bordered
         tbody
@@ -67,9 +67,9 @@ block content
               | Przejazd
               br
             th.tg-031e(style='padding-left:5px; padding-right:5px') Zakwaterowanie
-            th.tg-031e(style='padding-left:5px; padding-right:5px') Wyzywienie
+            th.tg-031e(style='padding-left:5px; padding-right:5px') Wyżywienie
             th.tg-031e(style='padding-left:5px; padding-right:5px')
-              | Oplata konferencyjna
+              | Opłata konferencyjna
               br
             th.tg-031e(style='padding-left:5px; padding-right:5px') Inne
           tr(style='height:40px')
@@ -81,7 +81,7 @@ block content
             td.tg-031e
       br
       button.btn.btn-default(type='submit')
-        | Wyslij wniosek
+        | Wyślij wniosek
       script. 
         $("table tbody tr td").bind("click", dataClick); 
         function dataClick(e) 
