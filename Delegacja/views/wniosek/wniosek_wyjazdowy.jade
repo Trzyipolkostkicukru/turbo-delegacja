@@ -1,0 +1,99 @@
+extends ../loggedLayout
+
+block content
+    br
+    br
+    h1 Wniosek o delegację
+    p
+    .container
+      .form-group
+        label
+          | Kontakt:
+        input.form-control(type='text')
+      .form-group
+        label
+          | Cel wyjazdu:
+        input.form-control(type='text')
+      .form-group
+        label
+          | Uzasadnienie wyjazdu:
+        input.form-control(type='text')
+      .form-group
+        label
+          | Ośrodek przyjmujący, Organizator:
+        input.form-control(type='text')
+        .form-group
+      .form-group
+        label
+          .form-group
+            label
+              | Kraj wyjazdu:
+            select.form-control
+              option(value='1')
+                | Papua
+              option(value='2')
+                | Meksyk
+              option(value='3')
+                | Tajlandia
+              option(value='')
+          .form-group
+            label
+              | Miejscowość:
+            select.form-control
+              option(value='1')
+                | X
+              option(value='2')
+                | Y
+              option(value='3')
+                | Z
+              option(value='')
+          |           Data wyjazdu
+        input.form-control(type='text')
+      .form-group
+        label
+          | Środki lokomocji:
+        input.form-control(type='text')
+      .form-group
+        label
+          | Źrodło finansowania:
+        input.form-control(type='text')
+      table.table-bordered
+        tbody
+          tr
+            th.tg-031e(style='padding-left:5px; padding-right:5px')
+              | Diety
+              br
+            th.tg-031e(style='padding-left:5px; padding-right:5px')
+              | Przejazd
+              br
+            th.tg-031e(style='padding-left:5px; padding-right:5px') Zakwaterowanie
+            th.tg-031e(style='padding-left:5px; padding-right:5px') Wyżywienie
+            th.tg-031e(style='padding-left:5px; padding-right:5px')
+              | Opłata konferencyjna
+              br
+            th.tg-031e(style='padding-left:5px; padding-right:5px') Inne
+          tr(style='height:40px')
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+            td.tg-031e
+      br
+      button.btn.btn-default(type='submit')
+        | Wyślij wniosek
+      script. 
+        $("table tbody tr td").bind("click", dataClick); 
+        function dataClick(e) 
+        { 
+            console.log(e); 
+            if (e.currentTarget.innerHTML != "") return; 
+            if(e.currentTarget.contentEditable != null)
+            { 
+                $(e.currentTarget).attr("contentEditable",true); 
+            }
+             else
+            { 
+                $(e.currentTarget).append("<input type='text'>"); 
+            } 
+        }
