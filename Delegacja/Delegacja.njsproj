@@ -64,6 +64,7 @@
     <Content Include="public\stylesheets\bootstrap.min.css" />
     <Content Include="public\stylesheets\style.css" />
     <Content Include="README.md" />
+    <Content Include="public\images\logo.png" />
     <Content Include="views\loggedLayout.jade" />
     <Content Include="views\logged.jade" />
     <Content Include="views\contact.jade" />
