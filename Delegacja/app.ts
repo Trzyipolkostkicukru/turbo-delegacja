@@ -2,8 +2,40 @@
 import routes = require('./routes/index');
 import http = require('http');
 import path = require('path');
-
+var sql = require('mssql'); 
 var app = express();
+
+var config = {
+    user: 'root',
+    password: '',
+    server: 'localhost', // You can use 'localhost\\instance' to connect to named instance 
+    database: 'TurboBase'
+}
+
+var connection = new sql.Connection(config, function (err) {
+    // ... error checks 
+    
+    // Query 
+    
+    var request = new sql.Request(connection); // or: var request = connection.request(); 
+    request.query('select 1 as number', function (err, recordset) {
+        // ... error checks 
+        
+        console.dir(recordset);
+    });
+    
+    // Stored Procedure 
+    
+    var request = new sql.Request(connection);
+    request.input('input_parameter', sql.Int, 10);
+    request.output('output_parameter', sql.VarChar(50));
+    request.execute('procedure_name', function (err, recordsets, returnValue) {
+        // ... error checks 
+        
+        console.dir(recordsets);
+    });
+
+});
 
 // all environments
 app.set('port', process.env.PORT || 3000);
