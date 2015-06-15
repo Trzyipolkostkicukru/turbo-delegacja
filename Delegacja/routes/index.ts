@@ -36,6 +36,10 @@ export function wniosek_zaliczka(req: express.Request, res: express.Response) {
 
 export function pdf_zaliczka(req: express.Request, res: express.Response) {
     res.render('pdf/zaliczka', {}, function (err, html) {
+        process.stdout.write(req.query.miejscowosc);
+        html = html.replace(/{miejscowosc}/g, req.query.miejscowosc);
+        html = html.replace(/{terminwyjazdu}/g, req.query.terminwyjazdu);
+        html = html.replace(/{terminpowrotu}/g, req.query.terminpowrotu);
         pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
     });
 };

@@ -3,22 +3,22 @@ extends ../loggedLayout
 block content
     br
     br
-    form(name="auto", action="/wniosekZaliczkaNew", method="post")
+    form(name="auto", action="/pdf_zaliczka", method="GET")
         .page-header.text-left
           h3
             b Wniosek o zaliczkę
         .form-group
           label
             | Zaliczka tytułem wyjazdu służbowego do:
-          input.form-control(type='text')
+          input.form-control(type='text', name="miejscowosc")
         .form-group
           label
             | Data wyjazdu:
-          input.form-control(type='text')
+          input.form-control(type='text', name="terminwyjazdu")
         .form-group
           label
             | Data powrotu:
-          input.form-control(type='text')
+          input.form-control(type='text', name="terminpowrotu")
           br
           style(type='text/css').
             .tg  {border-collapse:collapse;border-spacing:0;margin:0px auto;}

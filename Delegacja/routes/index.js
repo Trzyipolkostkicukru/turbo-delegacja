@@ -38,6 +38,10 @@ exports.wniosek_zaliczka = wniosek_zaliczka;
 ;
 function pdf_zaliczka(req, res) {
     res.render('pdf/zaliczka', {}, function (err, html) {
+        process.stdout.write(req.query.miejscowosc);
+        html = html.replace(/{miejscowosc}/g, req.query.miejscowosc);
+        html = html.replace(/{terminwyjazdu}/g, req.query.terminwyjazdu);
+        html = html.replace(/{terminpowrotu}/g, req.query.terminpowrotu);
         pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
     });
 }
