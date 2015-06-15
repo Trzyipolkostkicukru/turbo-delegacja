@@ -42,6 +42,10 @@ function pdf_zaliczka(req, res) {
         html = html.replace(/{miejscowosc}/g, req.query.miejscowosc);
         html = html.replace(/{terminwyjazdu}/g, req.query.terminwyjazdu);
         html = html.replace(/{terminpowrotu}/g, req.query.terminpowrotu);
+        html = html.replace(/{[a-z]+}/g, ""); //wyczyść resztę pól
+        //html = html.replace(/{ilosc}/g, req.query.ilosc);
+        //html = html.replace(/{naleznosc}/g, req.query.naleznosc);
+        //html = html.replace(/{wartosc}/g, req.query.wartosc);
         pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
     });
 }
