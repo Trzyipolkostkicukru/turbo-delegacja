@@ -60,9 +60,17 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="Pojazdy.sql" />
-    <Build Include="Wnioski.sql" />
-    <Build Include="Przebiegi.sql" />
+    <Build Include="Przebieg.sql" />
     <Build Include="Uzytkownicy.sql" />
+    <Build Include="WniosekWyjazdowy.sql" />
+    <Build Include="ZgodaWniosekWyjazdowy.sql" />
+    <Build Include="RozliczeniePodrozy.sql" />
+    <Build Include="Oswiadczenie.sql" />
+    <Build Include="UmowaAuto.sql" />
+    <Build Include="Dyspozycja.sql" />
+    <Build Include="Zaliczka.sql" />
+    <Build Include="OswiadczeniePozaGranica.sql" />
+    <Build Include="RozliczeniePozaGranica.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="TurboBase.refactorlog" />

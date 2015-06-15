@@ -18,7 +18,7 @@ var connection = new sql.Connection(config, function (err) {
     // Query 
     
     var request = new sql.Request(connection); // or: var request = connection.request(); 
-    request.query('select 1 as number', function (err, recordset) {
+    request.query('select  as number', function (err, recordset) {
         // ... error checks 
         
         console.dir(recordset);

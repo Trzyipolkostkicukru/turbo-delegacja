@@ -14,4 +14,123 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="Id_wniosku" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="49679c02-9951-4b3b-bfa4-90729449f8f3" ChangeDateTime="06/15/2015 17:52:28">
+    <Property Name="ElementName" Value="[dbo].[Uzytkownicy].[Miejsce zatrudnienia]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Uzytkownicy]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Miejsce_zatrudnienia" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="631b402d-a980-4432-95f0-1d7e1c2466ce" ChangeDateTime="06/15/2015 17:52:32">
+    <Property Name="ElementName" Value="[dbo].[Uzytkownicy].[Stanowisko]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Uzytkownicy]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Stanowisko_sluzbowe" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="304829a6-23c8-48c3-9cca-35ae2576fd92" ChangeDateTime="06/15/2015 17:52:35">
+    <Property Name="ElementName" Value="[dbo].[Uzytkownicy].[Stanowisko_sluzbowe]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Uzytkownicy]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Stanowisko" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ae380dee-f6d1-4564-90c0-89a5ea42dead" ChangeDateTime="06/15/2015 17:52:42">
+    <Property Name="ElementName" Value="[dbo].[Uzytkownicy].[Miejsce_zatrudnienia]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Uzytkownicy]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Zatrudnienie" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="706ea793-d3a1-480e-99ee-ca1370dad51f" ChangeDateTime="06/15/2015 17:58:32">
+    <Property Name="ElementName" Value="[dbo].[WniosekWyjazdowy].[Organizator]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[WniosekWyjazdowy]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Osrodek" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e6e3330f-a20a-4150-83b9-90541ebc9a47" ChangeDateTime="06/15/2015 17:59:56">
+    <Property Name="ElementName" Value="[dbo].[WniosekWyjazdowy].[zakwaterowanie]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[WniosekWyjazdowy]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Zakwaterowanie" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="133b2b43-4b78-4adb-b447-4d14269c7bfe" ChangeDateTime="06/15/2015 18:00:15">
+    <Property Name="ElementName" Value="[dbo].[WniosekWyjazdowy].[Oplata_]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[WniosekWyjazdowy]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Oplata_konferencyjna" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9baeaca7-a7f5-4859-89ea-0eee54fde012" ChangeDateTime="06/15/2015 18:00:42">
+    <Property Name="ElementName" Value="[dbo].[WniosekWyjazdowy].[Data]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[WniosekWyjazdowy]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Data_wystawienia" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c75a6aa8-2879-430c-a29c-d79af152fe97" ChangeDateTime="06/15/2015 18:01:51">
+    <Property Name="ElementName" Value="[dbo].[WniosekWyjazdowy].[Kierownik]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[WniosekWyjazdowy]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Id_kierownik_pracy" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0a910bfb-2aff-431e-a9e4-cf33090bd26a" ChangeDateTime="06/15/2015 18:03:14">
+    <Property Name="ElementName" Value="[dbo].[WniosekWyjazdowy].[Id_]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[WniosekWyjazdowy]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Id_decyzyjna" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="fa7103e0-7be2-494d-a6f2-861daef9f7f8" ChangeDateTime="06/15/2015 18:07:54">
+    <Property Name="ElementName" Value="[dbo].[ZgodaWniosekWyjazdowy].[Polecenie]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ZgodaWniosekWyjazdowy]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Polecenie_wyjazdu" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6df2dd92-cda6-4374-bec5-d8c83004cf4c" ChangeDateTime="06/15/2015 18:18:04">
+    <Property Name="ElementName" Value="[dbo].[ZgodaWniosekWyjazdowy].[Data]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ZgodaWniosekWyjazdowy]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Id_podpis_zaliczka" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3bbe06aa-1587-499a-b791-15395bc017c8" ChangeDateTime="06/15/2015 18:20:58">
+    <Property Name="ElementName" Value="[dbo].[Oswiadczenie].[Id_pracownik]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Oswiadczenie]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Id_uzytkownik" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e45d0392-9321-423c-add1-5e71f9bd3184" ChangeDateTime="06/15/2015 18:31:39">
+    <Property Name="ElementName" Value="[dbo].[Przebiegi].[Uzytkownik]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Przebiegi]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Id_uzytkownika" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f7713d42-2e0d-4ea5-8cf0-c852a97bd017" ChangeDateTime="06/15/2015 18:32:01">
+    <Property Name="ElementName" Value="[dbo].[Przebiegi].[Sciezka]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Przebiegi]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Jednostka_organizacyjna" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e5da8ce5-57e2-4246-96a5-b9d3c8a02542" ChangeDateTime="06/15/2015 18:53:38">
+    <Property Name="ElementName" Value="[dbo].[OswiadczeniePozaGranica].[Przejazd]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[OswiadczeniePozaGranica]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Organizator_przejazd" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2cd88a1c-60f6-4d87-a812-511c1124754f" ChangeDateTime="06/15/2015 18:53:59">
+    <Property Name="ElementName" Value="[dbo].[OswiadczeniePozaGranica].[Uzytkownik_]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[OswiadczeniePozaGranica]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Uzytkownik_przejazd" />
+  </Operation>
 </Operations>
