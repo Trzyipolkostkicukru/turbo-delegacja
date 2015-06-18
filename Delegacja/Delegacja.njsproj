@@ -34,6 +34,8 @@
   </PropertyGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
+    <TypeScriptCompile Include="mysqlHandler.ts" />
+    <TypeScriptCompile Include="objectHandler.ts" />
     <TypeScriptCompile Include="routes\index.ts" />
     <TypeScriptCompile Include="Scripts\typings\express\express.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\node\node.d.ts" />
@@ -71,6 +73,10 @@
     <Content Include="views\about.jade" />
     <Content Include="views\index.jade" />
     <Content Include="views\layout.jade" />
+    <Content Include="views\moje\moje_historia.jade" />
+    <Content Include="views\moje\moje_auta.jade" />
+    <Content Include="views\moje\moje_dane.jade" />
+    <Content Include="views\moje\moje_wnioski.jade" />
     <Content Include="views\pdf\auto.jade" />
     <Content Include="views\pdf\html\auto.html" />
     <Content Include="views\pdf\html\potwierdzenie.html" />
@@ -100,6 +106,7 @@
     <Folder Include="Scripts\typings\node\" />
     <Folder Include="Scripts\typings\stylus\" />
     <Folder Include="views\" />
+    <Folder Include="views\moje\" />
     <Folder Include="views\pdf\" />
     <Folder Include="views\pdf\html\" />
     <Folder Include="views\wniosek\" />

@@ -1,32 +1,9 @@
 var express = require('express');
 var routes = require('./routes/index');
+var mysql = require('./mysqlHandler');
 var http = require('http');
 var path = require('path');
-var sql = require('mssql');
 var app = express();
-var config = {
-    user: 'root',
-    password: '',
-    server: 'localhost',
-    database: 'TurboBase'
-};
-var connection = new sql.Connection(config, function (err) {
-    // ... error checks 
-    // Query 
-    var request = new sql.Request(connection); // or: var request = connection.request(); 
-    request.query('select  as number', function (err, recordset) {
-        // ... error checks 
-        console.dir(recordset);
-    });
-    // Stored Procedure 
-    var request = new sql.Request(connection);
-    request.input('input_parameter', sql.Int, 10);
-    request.output('output_parameter', sql.VarChar(50));
-    request.execute('procedure_name', function (err, recordsets, returnValue) {
-        // ... error checks 
-        console.dir(recordsets);
-    });
-});
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
@@ -36,12 +13,22 @@ app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
+app.use(express.cookieParser('HIRONAKAMURA'));
+app.use(express.session({
+    secret: "0GBlJZ9EKBt2Zbi2flRPvztczCewBxXK",
+    duration: 30 * 60 * 1000,
+    activeDuration: 5 * 60 * 1000
+}));
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', routes.index);
 app.post('/', function (req, res) {
-    console.log(req.body);
-    res.redirect('logged');
+    if (req.body.User === "" || req.body.Password === "")
+        res.redirect('');
+    else {
+        var arguments = [null, req.body.User, req.body.Password, req, res];
+        mysql.selectQuery("SELECT * FROM Uzytkownicy WHERE UsosLogin='" + req.body.User + "'", checkUser, arguments);
+    }
 });
 app.post('/wniosekAutoNew', function (req, res) {
     res.redirect('pdf_auto');
@@ -57,6 +44,11 @@ app.post('/wniosekWyjazdNew', function (req, res) {
 });
 app.post('/wniosekZaliczkaNew', function (req, res) {
     res.redirect('pdf_zaliczka');
+});
+app.post('/logout', function (req, res) {
+    req.session.destroy(function () {
+    });
+    res.redirect('');
 });
 app.get('/about', routes.about);
 app.get('/contact', routes.contact);
@@ -75,4 +67,27 @@ app.get('/pdf_potwierdzenie', routes.pdf_potwierdzenie);
 http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
 });
+function checkUser(rows, User, Password, req, res) {
+    if (rows !== null) {
+        if (rows.UsosPass === Password) {
+            req.session.user = [];
+            req.session["UsosLogin"] = rows.UsosLogin;
+            req.session["UsosLogin"] = rows.UsosLogin;
+            req.session["Ranga"] = rows.Ranga;
+            req.session["Podpis"] = rows.Podpis;
+            req.session["Imie"] = rows.Imie;
+            req.session["Nazwisko"] = rows.Nazwisko;
+            req.session["Stopien"] = rows.Stopien;
+            req.session["Kontakt"] = rows.Kontakt;
+            req.session["Zatrudnienie"] = rows.Zatrudnienie;
+            req.session["Stanowisko"] = rows.Stanowisko;
+            res.redirect('logged');
+        }
+        else
+            res.redirect(''); //zle haslo
+    }
+    else
+        res.redirect('');
+}
+;
 //# sourceMappingURL=app.js.map

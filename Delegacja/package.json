@@ -10,7 +10,8 @@
   "dependencies": {
     "express": "3.4.4",
     "jade": "*",
-	"mssql": "*",
-	"pdfcrowd": "*"
+	"mysql": "*",
+	"pdfcrowd": "*",
+	"express-session": "*"
   }
 }

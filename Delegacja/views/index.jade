@@ -13,22 +13,17 @@ block content
               label.control-label(for='textinput-0') Identyfikator
               |   
               .controls
-                input#textinput-0.input-xlarge(name='textinput-0', placeholder='', type='text')
+                input.form-control(name='User', placeholder='', type='text', style='width:200px')
             // Password input
             .control-group
               label.control-label(for='passwordinput-0') Hasło
               |   
               .controls
-                input#passwordinput-0.input-xlarge(name='passwordinput-0', placeholder='', type='password')
+                input.form-control(name='Password', placeholder='', type='password', style='width:200px')
             .control-group
-
-              .controls
-                label.checkbox.inline(for='multiplecheckboxesinline-0-0')
-                  input#multiplecheckboxesinline-0-0(name='multiplecheckboxesinline-0', value='Zapamiętaj mnie!', type='checkbox')
-                  |       Zapamiętaj mnie!
             // Button
             .control-group
               label.control-label(for='singlebutton-0')
               |   
               .controls
-                button#singlebutton-0.btn.btn-primary(name='singlebutton-0') Zaloguj
+                button.btn.btn-default(type='submit')  Zaloguj
