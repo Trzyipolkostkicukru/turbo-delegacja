@@ -10,13 +10,13 @@
           td {imie} {nazwisko}, {stopien_naukowy}
         tr
           td Kontakt (e-mail, tel.)
-          td {email}, {telefon}
+          td {kontakt}
         tr
           td Miejsce zatrudnienia / jednostka organizacyjna
-          td {miejsce_zatrudnienia_jednostka_organizacyjna} 
+          td {zatrudnienie} 
         tr
           td Stanowisko służbowe
-          td {stanowisko_sluzbowe}
+          td {stanowisko}
     h3 Informacje dotyczące wyjazdu
     center
       table(border='1', width='100%')
@@ -28,7 +28,7 @@
           td {uzasadnienie}
         tr
           td Ośrodek przyjmujący, Organizator
-          td {osrodek_przyjmujacy}, {organizator}
+          td {osrodek}
         tr
           td Kraj, miejscowość
           td {kraj}, {miejscowosc}
@@ -40,12 +40,12 @@
           td {data_powrotu}
         tr
           td środki lokomocji
-          td {srodek_lokomocji}
+          td {srodki_lokomocji}
     h3 Informacje dotyczące kosztów wyjazdu
     center
       table(border='1', width='100%')
         tr
-          td &Zacute;ródło finansowania
+          td Źródło finansowania
           td {zrodlo_finansowania}
         tr
           td Szacowany koszt (w złotych)
@@ -71,7 +71,7 @@
                 td {inne}
               tr
                 td łącznie
-                td {lacznie}
+                td {suma}
     table(border='1', width='100%')
       tr
         td(colspan='2', align='center')
@@ -83,10 +83,10 @@
       tr
         td(align='center')
           br
-          | Białystok, dnia .........................................
+          | Białystok, dnia {data_wystawienia}
         td(align='center')
           br
-          | ..........................................................
+          | {podpis_pracownika}
           br
           | (podpis Pracownika)
     br
@@ -98,14 +98,14 @@
             br
             br
             br
-            | ..............................
+            | {podpis_przelozony}
             br
             | (data i podpis)
           td(align='center')
             | Kierownik pracy*/projektu*/koordynator wydziałowy*
             br
             br
-            | ..............................
+            | {podpis_kierownik_pracy}
             br
             | (data i
             | podpis)
@@ -114,24 +114,24 @@
             | (pod względem merytorycznym)
             br
             br
-            | ..............................
+            | {podpis_kierownik_jednostki}
             br
             | (data i podpis)
         tr
-          td(align='center') Potwierdzenie &zacute;ródła finansowania
+          td(align='center') Potwierdzenie źródła finansowania
           td(colspan='2', align='center')
             br
-            | .....................................................................................................
+            | {podpis_decyzyjna}
             br
             | (data i podpis)
         tr
           td(colspan='3', align='center')
             | Wyrażam zgodę na wyjazd
             | &#x206D; w ramach polecenia wyjazdu służbowego*
-            | &#x206D; podnoszenie kwalifikacji zawodowych za zwrotem kosztów do wysokości* .................................. 
+            | &#x206D; podnoszenie kwalifikacji zawodowych za zwrotem kosztów do wysokości* {suma} 
             br
             br
-            | ..........................................................................................................................&lt;
+            | {podpis_decyzyjna}&lt;
             | br&gt;
             | (data i podpis osoby podejmującej decyzję)
             br

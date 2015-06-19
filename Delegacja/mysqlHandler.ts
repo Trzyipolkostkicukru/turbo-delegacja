@@ -1,5 +1,5 @@
 ﻿var mysql = require('mysql');
-import objectHandler = require('./objectHandler');
+import express = require('express');
 
 var pool = mysql.createPool({
     host: 'atomic-jumpers.xaa.pl',
@@ -8,16 +8,15 @@ var pool = mysql.createPool({
     password: 'turbo',
 });
 
-export function selectQueries(query: string): any {
-    var value = null;
+export function selectQueries(query: string, func: any, params: any) {
     pool.getConnection((err, connection) => {
         connection.query(query, (err, rows, fields) => {
             if (err) throw err;
-            value = objectHandler.getCloneOfArray(rows);
+            params[0] = rows;
+            func.apply(this, params);
             connection.destroy();
         });
     });
-    return value;
 }
 export function selectQuery(query: string, func: any, params: any) {
     pool.getConnection((err, connection) => {
@@ -40,16 +39,13 @@ export function selectQueryCount(query: string): number {
     });
     return value;
 }
-export function insertQuery(query: string): boolean {
-    var value = false;
+export function insertQuery(query: string) {
     pool.getConnection((err, connection) => {
         connection.query(query, (err, rows, fields) => {
             if (err) throw err;
-            value = true;
             connection.destroy();
         });
     });
-    return value;
 }
 export function updateQuery(query: string): number {
     var value = -1;

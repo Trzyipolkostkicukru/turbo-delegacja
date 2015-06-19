@@ -3,54 +3,82 @@ extends ../loggedLayout
 block content
     br
     br
-    h1 Wniosek o auto
+    h1 Moje auta
     p
-    form(name="auto", action="/wniosekAutoNew", method="post")
-      .form-group
-        label
-        .form-group
-          label
-            | Pracodawca reprezentujący Politechnikę:
-          select.form-control(name="aaa")
-            option(value='1')
-              | Pan X
-            option(value='2')
-              | Pan Y
-            option(value='3')
-              | Pan Z
-            option(value='')
-      .form-group
-        label
-          | Wybierz pojazd:
-        select.form-control
-          option(value='1')
-            | Ford Focus 1.6
-          option(value='2')
-            | Volkswagen Golf 1.9
-          option(value='')
-          option(value='')
-      .form-group
-        label
-          | Miejsce podróży:
-        input.form-control(type='text')
-        .form-group
-          label
-            | Czas podróży
-          input.form-control(type='text')
-          .form-group
-            label
-              | Iloczyn przejechanych kilometrow przez stawke:
-            input.form-control(placeholder='zl/km', type='text')
-      .form-group
-        label
-          | Numer polecenia wyjazdu służbowego:
-        input.form-control(type='text')
-      .form-group
-        label
-          | Umowa od dnia:
-        input.form-control(placeholder='DD.MM.RR', type='text')
-      .form-group
-        label
-          | Umowa do dnia:
-        input.form-control(placeholder='DD.MM.RR', type='text')
+      table(style='width:100%; text-align: center; margin-top: 10px' border='1')
+        tbody
+          tr(style='font-weight: bold')
+            td L.p.           
+            td Model             
+            td Marka
+            td Numer rejestracyjny
+            td Pojemność     
+        each val, index in rows
+          tr
+            td= index+1
+            td= val.Rodzaj
+            td= val.Marka
+            td= val.Numer_rejestracyjny
+            td= val.Pojemnosc
+            td
+                a(href='moje_autaEdit?Id='+val.Id)
+                    button.btn.btn-default(type='submit') Edytuj
+                a(href='/moje_autaRemove?Id='+val.Id)
+                    button.btn.btn-default(type='submit') Usuń
+    h3 Dodaj nowe auto
+    if !edit
+        form(name="mojeAuta", action="/moje_autaNew", method="post")
+            // Text input
+            .control-group
+              label.control-label(for='Model') Model pojazdu:
+              .controls
+                input.form-control(name='Model', placeholder='', required='', type='text')
+            // Text input
+            .control-group
+              label.control-label(for='Marka') Marka pojazdu:
+              .controls
+                input.form-control(name='Marka', placeholder='', required='', type='text')
+            // Text input
+            .control-group
+              label.control-label(for='Numer') Numer rejestracyjny:
+              .controls
+                input.form-control(name='Numer', placeholder='', required='', type='text')
+            // Text input
+            .control-group
+              label.control-label(for='Pojemnosc') Pojemność:
+              .controls
+                input.form-control(name='Pojemnosc', placeholder='', required='', type='text')
+            // Button
+            .control-group
+              label.control-label(for='singlebutton-0')
+              .controls
+                button.btn.btn-default(type='submit') Dodaj
+    else 
+        form(name="mojeAuta", action="/moje_autaEdit", method="post")
+            // Text input
+            .control-group
+              label.control-label(for='Model') Model pojazdu:
+              .controls
+                input.form-control(name='Model', placeholder='', required='', type='text', value='#{EditTab.Rodzaj}')
+            // Text input
+            .control-group
+              label.control-label(for='Marka') Marka pojazdu:
+              .controls
+                input.form-control(name='Marka', placeholder='', required='', type='text', value='#{EditTab.Marka}')
+            // Text input
+            .control-group
+              label.control-label(for='Numer') Numer rejestracyjny:
+              .controls
+                input.form-control(name='Numer', placeholder='', required='', type='text', value='#{EditTab.Numer_rejestracyjny}')
+            // Text input
+            .control-group
+              label.control-label(for='Pojemnosc') Pojemność:
+              .controls
+                input.form-control(name='Pojemnosc', placeholder='', required='', type='text', value='#{EditTab.Pojemnosc}')
+                input.form-control(name='Id', type='hidden', value='#{EditTab.Id}')
+            // Button
+            .control-group
+              label.control-label(for='singlebutton-0')
+              .controls
+                button.btn.btn-default(type='submit', name='Edytuj') Edytuj
 br

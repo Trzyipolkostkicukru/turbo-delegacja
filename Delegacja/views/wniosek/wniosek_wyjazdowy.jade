@@ -5,24 +5,20 @@ block content
     br
     h1 Wniosek o delegację
     p
-    form(name="auto", action="/pdf_wyjazd", method="post")
+    form(name="auto", action="/wniosek_wyjazdowyNew", method="post")
         .container
           .form-group
             label
-              | Kontakt:
-            input.form-control(type='text')
-          .form-group
-            label
               | Cel wyjazdu:
-            input.form-control(type='text')
+            input.form-control(type='text', name='Cel')
           .form-group
             label
               | Uzasadnienie wyjazdu:
-            input.form-control(type='text')
+            input.form-control(type='text', name='Uzasadnienie')
           .form-group
             label
               | Ośrodek przyjmujący, Organizator:
-            input.form-control(type='text')
+            input.form-control(type='text', name='Osrodek')
             .form-group
           .form-group
             label
@@ -30,34 +26,32 @@ block content
                 label
                   | Kraj wyjazdu:
                 select.form-control
-                  option(value='1')
-                    | Papua
-                  option(value='2')
-                    | Meksyk
-                  option(value='3')
-                    | Tajlandia
-                  option(value='')
+                  option(value='Polska', name='Polska')
+                    | Polska
+                  option(value='Stany Zjednoczone', name='Stany_zjednoczone')
+                    | Stany Zjednoczone
+                  option(value='Francja', name='Francja')
+                    | Francja
+                  option(value='Niemcy', name='Niemcy')
+                    | Niemcy
               .form-group
                 label
                   | Miejscowość:
-                select.form-control
-                  option(value='1')
-                    | X
-                  option(value='2')
-                    | Y
-                  option(value='3')
-                    | Z
-                  option(value='')
-              |           Data wyjazdu
-            input.form-control(type='text')
+                input.form-control(type='text', name='Miejscowosc')
+          .form-group
+              | Data wyjazdu:
+            input.form-control(type='text', placeholder='DD-MM-RRRR', name='Data_wyjazdu')
+          .form-group
+              | Data powrotu:
+            input.form-control(type='text', placeholder='DD-MM-RRRR', name='Data_powrotu')
           .form-group
             label
               | Środki lokomocji:
-            input.form-control(type='text')
+            input.form-control(type='text', name='Srodki_lokomocji')
           .form-group
             label
               | Źrodło finansowania:
-            input.form-control(type='text')
+            input.form-control(type='text', name='Zrodlo_finansowania')
           table.table-bordered
             tbody
               tr
@@ -75,26 +69,17 @@ block content
                 th.tg-031e(style='padding-left:5px; padding-right:5px') Inne
               tr(style='height:40px')
                 td.tg-031e
+                    input.form-control(type='text', name='Diety')
                 td.tg-031e
+                    input.form-control(type='text', name='Przejazd')
                 td.tg-031e
+                    input.form-control(type='text', name='Zakwaterowanie')
                 td.tg-031e
+                    input.form-control(type='text', name='Wyzywienie')
                 td.tg-031e
+                    input.form-control(type='text', name='Oplata_konferencyjna')
                 td.tg-031e
+                    input.form-control(type='text', name='Inne')
           br
           button.btn.btn-default(type='submit')
             | Wyślij wniosek
-      script. 
-        $("table tbody tr td").bind("click", dataClick); 
-        function dataClick(e) 
-        { 
-            console.log(e); 
-            if (e.currentTarget.innerHTML != "") return; 
-            if(e.currentTarget.contentEditable != null)
-            { 
-                $(e.currentTarget).attr("contentEditable",true); 
-            }
-             else
-            { 
-                $(e.currentTarget).append("<input type='text'>"); 
-            } 
-        }

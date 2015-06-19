@@ -52,6 +52,11 @@ app.post('/logout',(req, res) => {
     req.session.destroy(() => {});
     res.redirect('');
 });
+app.post('/moje_autaNew', routes.moje_autaNew);
+app.post('/moje_autaEdit', routes.moje_autaEditSave);
+app.get('/moje_autaRemove', routes.moje_autaRemove);
+app.get('/moje_autaEdit', routes.moje_autaEdit);
+
 app.get('/about', routes.about);
 app.get('/contact', routes.contact);
 app.get('/wniosek_wyjazdowy', routes.wniosek_wyjazdowy);
@@ -60,6 +65,11 @@ app.get('/wniosek_auto', routes.wniosek_auto);
 app.get('/wniosek_auto_przebieg', routes.wniosek_auto_przebieg);
 app.get('/wniosek_zaliczka', routes.wniosek_zaliczka);
 app.get('/wniosek_potwierdzenie', routes.wniosek_potwierdzenie);
+app.get('/moje_auta', routes.moje_auta);
+app.get('/moje_dane', routes.moje_dane);
+app.get('/moje_historia', routes.moje_historia);
+app.get('/moje_wnioski', routes.moje_wnioski);
+
 
 app.get('/pdf_wyjazdowy', routes.pdf_wyjazdowy);
 app.get('/pdf_potwierdzenie', routes.pdf_potwierdzenie);

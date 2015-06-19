@@ -82,7 +82,6 @@ block content
         $("table tbody tr td").bind("click", dataClick); 
         function dataClick(e) 
         { 
-            console.log(e); 
             if (e.currentTarget.innerHTML != "") return; 
             if(e.currentTarget.contentEditable != null)
             { 
