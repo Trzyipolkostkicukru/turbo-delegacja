@@ -1,56 +1,83 @@
 extends ../loggedLayout
 
 block content
-    br
-    br
-    h1 Wniosek o auto
+    h1 Moje wnioski
     p
-    form(name="auto", action="/wniosekAutoNew", method="post")
-      .form-group
-        label
-        .form-group
-          label
-            | Pracodawca reprezentujący Politechnikę:
-          select.form-control(name="aaa")
-            option(value='1')
-              | Pan X
-            option(value='2')
-              | Pan Y
-            option(value='3')
-              | Pan Z
-            option(value='')
-      .form-group
-        label
-          | Wybierz pojazd:
-        select.form-control
-          option(value='1')
-            | Ford Focus 1.6
-          option(value='2')
-            | Volkswagen Golf 1.9
-          option(value='')
-          option(value='')
-      .form-group
-        label
-          | Miejsce podróży:
-        input.form-control(type='text')
-        .form-group
-          label
-            | Czas podróży
-          input.form-control(type='text')
-          .form-group
-            label
-              | Iloczyn przejechanych kilometrow przez stawke:
-            input.form-control(placeholder='zl/km', type='text')
-      .form-group
-        label
-          | Numer polecenia wyjazdu służbowego:
-        input.form-control(type='text')
-      .form-group
-        label
-          | Umowa od dnia:
-        input.form-control(placeholder='DD.MM.RR', type='text')
-      .form-group
-        label
-          | Umowa do dnia:
-        input.form-control(placeholder='DD.MM.RR', type='text')
-br
+      table(style='width:100%; text-align: center; margin-top: 10px' border='1')
+        tbody
+          tr(style='font-weight: bold')
+            td Id
+            td Cel wyjazdu          
+            td Data wyjazdu
+            td Data powrotu
+            td Kraj     
+            td Miejscowosc
+            td Data wystawienia
+            td Stan  
+        each val, index in rows
+          tr
+            td= val.Id
+            td= val.Cel
+            td= val.Data_wyjazdu
+            td= val.Data_powrotu
+            td= val.Kraj
+            td= val.Miejscowosc
+            td= val.Data_wystawienia
+            case val.Stan
+                when -1
+                    td
+                        //anulowany wniosek
+                        span.glyphicon.glyphicon-certificate(style='color:black')
+                when 0
+                    td
+                        //zakonczony wniosek
+                        span.glyphicon.glyphicon-certificate(style='color:red')
+                when 1
+                    td
+                        //nowy wniosek
+                        span.glyphicon.glyphicon-certificate(style='color:green')
+                when 2
+                    td
+                        //w trakcie opiniowania
+                        span.glyphicon.glyphicon-certificate(style='color:orange')
+                when 3
+                    td
+                        //zaakceptowany
+                        span.glyphicon.glyphicon-certificate(style='color:blue')
+                when 4
+                    td
+                        //w trakcie wykonywania
+                        span.glyphicon.glyphicon-certificate(style='color:magenta')
+                when 5
+                    td
+                        //inny?
+                        span.glyphicon.glyphicon-certificate(style='color:gray')
+            td
+                a(href='pdf_wyjazdowy?Id='+val.Id)
+                    button.btn.btn-default(type='submit') Drukuj
+                a(href='/wniosek_wyjazdowyRemove?Id='+val.Id)
+                    button.btn.btn-default(type='submit') Anuluj
+    table
+        tr
+            td
+                span.glyphicon.glyphicon-certificate(style='color:black; padding: 5px') 
+                    .divek(style='font-family: Arial; float: right') Anulowany
+            td
+                span.glyphicon.glyphicon-certificate(style='color:red; padding: 5px') 
+                    .divek(style='font-family: Arial; float: right') Zakończony
+            td
+                span.glyphicon.glyphicon-certificate(style='color:green; padding: 5px') 
+                    .divek(style='font-family: Arial; float: right') Nowy
+            td
+                span.glyphicon.glyphicon-certificate(style='color:orange; padding: 5px') 
+                    .divek(style='font-family: Arial; float: right') W trakcie opiniowania
+            td
+                span.glyphicon.glyphicon-certificate(style='color:blue; padding: 5px') 
+                    .divek(style='font-family: Arial; float: right') Zaakceptowany
+            td
+                span.glyphicon.glyphicon-certificate(style='color:magenta; padding: 5px') 
+                    .divek(style='font-family: Arial; float: right') W trakcie wykonywania
+            td
+                span.glyphicon.glyphicon-certificate(style='color:gray; padding: 5px') 
+                    .divek(style='font-family: Arial; float: right') Inny
+

@@ -12,6 +12,7 @@
     "jade": "*",
 	"mysql": "*",
 	"pdfcrowd": "*",
-	"express-session": "*"
+	"express-session": "*",
+	"moment": "*"
   }
 }

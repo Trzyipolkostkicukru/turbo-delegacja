@@ -3,6 +3,7 @@ import express = require('express');
 var version: string = "0.0.1";
 var pdfCrowd = require('pdfcrowd');
 var pdfCrowdClient = new pdfCrowd.Pdfcrowd('biedronka', 'c9225df149b2469749d20b34c928cdff');
+var moment = require("moment");
 export function index(req: express.Request, res: express.Response) {
     if (req.session["UsosLogin"] == null) {
         res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
@@ -18,50 +19,63 @@ export function wniosek_wyjazdowy(req: express.Request, res: express.Response) {
 };
 
 export function wniosek_wyjazdowyNew(req: express.Request, res: express.Response) {
-    var krajowy = (req.body.Kraj.value == "Polska") ? 1 : 0;
+    var krajowy = (req.body.Kraj == "Polska") ? 1 : 0;
     mysql.insertQuery("INSERT INTO WniosekWyjazdowy VALUES (NULL, (SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "'), '" + req.body.Cel + "', '" + req.body.Uzasadnienie + "', " +
-        "'" + req.body.Osrodek + "', '" + req.body.Kraj.value + "', '" + req.body.Miejscowosc + "', STR_TO_DATE('" + req.body.Data_wyjazdu + "','%d-%m-%Y'), STR_TO_DATE('" + req.body.Data_powrotu + "','%d-%m-%Y'), " +
+        "'" + req.body.Osrodek + "', '" + req.body.Kraj + "', '" + req.body.Miejscowosc + "', STR_TO_DATE('" + req.body.Data_wyjazdu + "','%d-%m-%Y'), STR_TO_DATE('" + req.body.Data_powrotu + "','%d-%m-%Y'), " +
         "'" + req.body.Srodki_lokomocji + "', '" + req.body.Zrodlo_finansowania + "', '" + req.body.Diety + "', '" + req.body.Przejazd + "', '" + req.body.Zakwaterowanie + "', '" + req.body.Wyzywienie + "', " +
         "'" + req.body.Oplata_konferencyjna + "', '" + req.body.Inne + "', NOW(), NULL, NULL, NULL, '1', NULL, '" + krajowy + "')");
-    res.render('moje/moje_wnioski', { title: 'Moje wnioski', year: new Date().getFullYear(), ver: version, message: 'Zobacz informacje związane z wnioskami.' });
+    moje_wnioski(req, res);
 };
 
 export function pdf_wyjazdowy(req: express.Request, res: express.Response) {
     var func = (tab: any, req: express.Request, res: express.Response) => {
-        res.render('pdf/wyjazdowy', {}, (err, html) => {
-            html = html.replace(/{imie}/g, req.session["Imie"]);
-            html = html.replace(/{nazwisko}/g, req.session["Nazwisko"]);
-            html = html.replace(/{stopien_naukowy}/g, req.session["Stopien"]);
-            html = html.replace(/{kontakt}/g, req.session["Kontakt"]);
-            html = html.replace(/{stanowisko}/g, req.session["Stanowisko"]);
-            html = html.replace(/{zatrudnienie}/g, req.session["Zatrudnienie"]);
+        res.render('pdf/wyjazdowy', {},(err, html) => {
+            if (html !== undefined) {
+                html = html.replace(/{imie}/g, req.session["Imie"]);
+                html = html.replace(/{nazwisko}/g, req.session["Nazwisko"]);
+                html = html.replace(/{stopien_naukowy}/g, req.session["Stopien"]);
+                html = html.replace(/{kontakt}/g, req.session["Kontakt"]);
+                html = html.replace(/{stanowisko}/g, req.session["Stanowisko"]);
+                html = html.replace(/{zatrudnienie}/g, req.session["Zatrudnienie"]);
 
-            html = html.replace(/{cel_wyjazdu}/g, tab.Cel);
-            html = html.replace(/{uzasadnienie}/g, tab.Uzasadnienie);
-            html = html.replace(/{osrodek}/g, tab.Osrodek);
-            html = html.replace(/{kraj}/g, tab.Kraj);
-            html = html.replace(/{miejscowosc}/g, tab.Miejscowosc);
-            html = html.replace(/{data_wyjazdu}/g, tab.Data_wyjazdu);
-            html = html.replace(/{data_powrotu}/g, tab.Data_powrotu);
-            html = html.replace(/{srodki_lokomocji}/g, tab.Srodki_lokomocji);
+                html = html.replace(/{cel_wyjazdu}/g, tab.Cel);
+                html = html.replace(/{uzasadnienie}/g, tab.Uzasadnienie);
+                html = html.replace(/{osrodek}/g, tab.Osrodek);
+                html = html.replace(/{kraj}/g, tab.Kraj);
+                html = html.replace(/{miejscowosc}/g, tab.Miejscowosc);
+                html = html.replace(/{data_wyjazdu}/g, moment(tab.Data_wyjazdu).format("DD MMMM YYYY"));
+                html = html.replace(/{data_powrotu}/g, moment(tab.Data_powrotu).format("DD MMMM YYYY"));
+                html = html.replace(/{srodki_lokomocji}/g, tab.Srodek_lokomocji);
 
-            html = html.replace(/{diety}/g, tab.Diety);
-            html = html.replace(/{przejazd}/g, tab.Przejazd);
-            html = html.replace(/{zakwaterowanie}/g, tab.Zakwaterowanie);
-            html = html.replace(/{wyzywienie}/g, tab.Wyzywienie);
-            html = html.replace(/{oplata_konferencyjna}/g, tab.Oplata_konferencyjna);
-            html = html.replace(/{inne}/g, tab.Inne);
-            html = html.replace(/{suma}/g, (tab.Diety + tab.Przejazd + tab.Zakwaterowanie + tab.Wyzywienie + tab.Oplata_konferencyjna + tab.Inne));
+                html = html.replace(/{zrodlo_finansowania}/g, tab.Zrodlo_finansowania);
+                html = html.replace(/{diety}/g, tab.Diety);
+                html = html.replace(/{przejazd}/g, tab.Przejazd);
+                html = html.replace(/{zakwaterowanie}/g, tab.Zakwaterowanie);
+                html = html.replace(/{wyzywienie}/g, tab.Wyzywienie);
+                html = html.replace(/{oplata_konferencyjna}/g, tab.Oplata_konferencyjna);
+                html = html.replace(/{inne}/g, tab.Inne);
 
-            html = html.replace(/{data_wystawienia}/g, tab.Data_wystawienia);
-            html = html.replace(/{podpis_pracownika}/g, req.session["Podpis"]);
-            html = html.replace(/{podpis_przelozony}/g, tab.Id_przelozony);
-            html = html.replace(/{podpis_kierownik_pracy}/g, tab.Id_kierownik_pracy);
-            html = html.replace(/{podpis_kierownik_jednostki}/g, tab.Id_kierownik_jednostki);
-            html = html.replace(/{podpis_decyzyjna}/g, tab.Id_decyzyjna);
-            pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
+                html = html.replace(/{suma}/g,(tab.Diety+tab.Przejazd+tab.Zakwaterowanie+tab.Wyzywienie+tab.Oplata_konferencyjna+tab.Inne).toString());
+
+                html = html.replace(/{data_wystawienia}/g, moment(tab.Data_wystawienia).format("DD MMMM YYYY"));
+                html = html.replace(/{podpis_pracownika}/g, req.session["Podpis"]);
+
+                if (tab.Id_kierownik_jednostki == null) html = html.replace(/{podpis_kierownik_jednostki}/g, " ");
+                else html = html.replace(/{podpis_kierownik_jednostki}/g, tab.Id_kierownik_jednostki);
+
+                if (tab.Id_decyzyjna == null) html = html.replace(/{podpis_decyzyjna}/g, " ");
+                else html = html.replace(/{podpis_decyzyjna}/g, tab.Id_decyzyjna);
+
+                if (tab.Id_przelozony == null) html = html.replace(/{podpis_przelozony}/g, " ");
+                else html = html.replace(/{podpis_przelozony}/g, tab.Id_przelozony);
+
+                if (tab.Id_kierownik_pracy == null) html = html.replace(/{podpis_kierownik_pracy}/g, " ");
+                else html = html.replace(/{podpis_kierownik_pracy}/g, tab.Id_kierownik_pracy);
+
+                pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
+            }
         });
-    }
+    };
     var params = [null, req, res];
     mysql.selectQuery("SELECT * FROM WniosekWyjazdowy WHERE Id='" + req.query.Id + "'", func, params);
 };
@@ -130,7 +144,6 @@ export function moje_autaEdit(req: express.Request, res: express.Response) {
             for (var i = 0; i < tab.length; i++)
                 if (tab[i].Id == req.query.Id) n = i;
             var editTab = tab[n];
-            console.log(editTab);
             res.render('moje/moje_auta', { title: 'Moje auta', year: new Date().getFullYear(), ver: version, message: 'Zobacz informacje związane z autami.', rows: tab, edit: true, EditTab: editTab });
         }
         mysql.selectQueries("SELECT * FROM Pojazdy WHERE Wlasciciel_id=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "')", func, [null, req, res]);
@@ -165,14 +178,21 @@ export function moje_historia(req: express.Request, res: express.Response) {
 
 export function moje_wnioski(req: express.Request, res: express.Response) {
     if (req.session["UsosLogin"] != null) {
-
-        res.render('moje/moje_wnioski', { title: 'Moje wnioski', year: new Date().getFullYear(), ver: version, message: 'Zobacz informacje związane z wnioskami.' });
+        var func = (tab: any, req: express.Request, res: express.Response) => {
+            for (var item in tab) {
+                moment.locale('pl');
+                tab[item].Data_wystawienia = moment(tab[item].Data_wystawienia.toISOString()).format("DD MMMM YYYY");
+                tab[item].Data_wyjazdu = moment(tab[item].Data_wyjazdu.toISOString()).format("DD MMMM YYYY");
+                tab[item].Data_powrotu = moment(tab[item].Data_powrotu.toISOString()).format("DD MMMM YYYY");
+            }
+            res.render('moje/moje_wnioski', { title: 'Moje wnioski', year: new Date().getFullYear(), ver: version, message: 'Zobacz informacje związane z wnioskami.', rows: tab});
+        }
+        mysql.selectQueries("SELECT * FROM WniosekWyjazdowy WHERE Id_uzytkownika=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "')", func, [null, req, res]);
     } else res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
 };
 
 export function pdf_zaliczka(req: express.Request, res: express.Response) {
     res.render('pdf/zaliczka', {}, (err, html) => {
-        process.stdout.write(req.query.miejscowosc);
         html = html.replace(/{miejscowosc}/g, req.query.miejscowosc);
         html = html.replace(/{terminwyjazdu}/g, req.query.terminwyjazdu);
         html = html.replace(/{terminpowrotu}/g, req.query.terminpowrotu);

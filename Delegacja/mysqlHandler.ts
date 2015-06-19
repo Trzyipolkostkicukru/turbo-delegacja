@@ -1,5 +1,7 @@
 ﻿var mysql = require('mysql');
 import express = require('express');
+var pdfCrowd = require('pdfcrowd');
+var pdfCrowdClient = new pdfCrowd.Pdfcrowd('biedronka', 'c9225df149b2469749d20b34c928cdff');
 
 var pool = mysql.createPool({
     host: 'atomic-jumpers.xaa.pl',
