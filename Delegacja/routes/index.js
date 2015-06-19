@@ -23,7 +23,7 @@ exports.wniosek_wyjazdowy = wniosek_wyjazdowy;
 function wniosek_wyjazdowyNew(req, res) {
     var krajowy = (req.body.Kraj.value == "Polska") ? 1 : 0;
     mysql.insertQuery("INSERT INTO WniosekWyjazdowy VALUES (NULL, (SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "'), '" + req.body.Cel + "', '" + req.body.Uzasadnienie + "', " + "'" + req.body.Osrodek + "', '" + req.body.Kraj.value + "', '" + req.body.Miejscowosc + "', STR_TO_DATE('" + req.body.Data_wyjazdu + "','%d-%m-%Y'), STR_TO_DATE('" + req.body.Data_powrotu + "','%d-%m-%Y'), " + "'" + req.body.Srodki_lokomocji + "', '" + req.body.Zrodlo_finansowania + "', '" + req.body.Diety + "', '" + req.body.Przejazd + "', '" + req.body.Zakwaterowanie + "', '" + req.body.Wyzywienie + "', " + "'" + req.body.Oplata_konferencyjna + "', '" + req.body.Inne + "', NOW(), NULL, NULL, NULL, '1', NULL, '" + krajowy + "')");
-    res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
+    res.render('moje/moje_wnioski', { title: 'Moje wnioski', year: new Date().getFullYear(), ver: version, message: 'Zobacz informacje związane z wnioskami.' });
 }
 exports.wniosek_wyjazdowyNew = wniosek_wyjazdowyNew;
 ;
