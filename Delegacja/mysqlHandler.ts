@@ -1,7 +1,7 @@
 ﻿var mysql = require('mysql');
 import express = require('express');
 var pdfCrowd = require('pdfcrowd');
-var pdfCrowdClient = new pdfCrowd.Pdfcrowd('biedronka', 'c9225df149b2469749d20b34c928cdff');
+var pdfCrowdClient = new pdfCrowd.Pdfcrowd('cukr', 'dea1070d952eb9626816605426eb08ad');
 
 var pool = mysql.createPool({
     host: 'atomic-jumpers.xaa.pl',
@@ -30,6 +30,7 @@ export function selectQuery(query: string, func: any, params: any) {
         });
     });
 }
+
 export function selectQueryCount(query: string): number {
     var value;
     pool.getConnection((err, connection) => {

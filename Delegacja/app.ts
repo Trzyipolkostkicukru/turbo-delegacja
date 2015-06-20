@@ -36,22 +36,6 @@ app.post('/',(req, res) => {
 
 });
 
-
-app.post('/wniosekAutoNew', (req, res) => {
-    res.redirect('pdf_auto');
-});
-app.post('/wniosekAutoPrzebiegNew', (req, res) => {
-    res.redirect('pdf_przebieg');
-});
-app.post('/wniosekPotwierdzenieNew', (req, res) => {
-    res.redirect('pdf_potwierdzenie');
-});
-app.post('/wniosekWyjazdNew', (req, res) => {
-    res.redirect('pdf_wyjazdowy');
-});
-app.post('/wniosekZaliczkaNew', (req, res) => {
-    res.redirect('pdf_zaliczka');
-});
 app.get('/logout',(req, res) => {
     req.session.destroy(() => {});
     res.redirect('');
@@ -68,16 +52,17 @@ app.get('/wniosek_wyjazdowy', routes.wniosek_wyjazdowy);
 app.post('/wniosek_wyjazdowyAccept', routes.wniosek_wyjazdowyAccept);
 app.post('/wniosek_wyjazdowyNew', routes.wniosek_wyjazdowyNew);
 app.get('/oczekujace_wnioski', routes.oczekujace_wnioski);
-
 app.get('/oczekujace_polecenia', routes.oczekujace_polecenia);
 app.get('/poleceniaAccept', routes.poleceniaAccept);
 app.get('/pdf_polecenia', routes.pdf_polecenia);
 app.get('/poleceniaRemove', routes.poleceniaRemove);
 app.get('/poleceniaNew', routes.poleceniaNew);
+app.get('/poleceniaAutaAdd', routes.poleceniaAutaAdd);
 
 app.get('/logged', routes.logged);
-app.get('/wniosek_auto', routes.wniosek_auto);
+//app.get('/wniosek_auto', routes.wniosek_auto);
 app.get('/wniosek_auto_przebieg', routes.wniosek_auto_przebieg);
+app.post('/wniosekAutoNew', routes.wniosekAutoNew);
 app.get('/wniosek_zaliczka', routes.wniosek_zaliczka);
 app.get('/wniosek_potwierdzenie', routes.wniosek_potwierdzenie);
 app.get('/moje_auta', routes.moje_auta);
@@ -85,6 +70,11 @@ app.get('/moje_dane', routes.moje_dane);
 app.get('/moje_historia', routes.moje_historia);
 app.get('/moje_wnioski', routes.moje_wnioski);
 app.get('/moje_polecenia', routes.moje_polecenia);
+app.get('/moje_podpiecia', routes.moje_podpiecia); 
+app.get('/moje_oswiadczenia', routes.moje_oswiadczenia); 
+app.get('/podpieciaRemove', routes.podpieciaRemove); 
+app.get('/podpieciaAccept', routes.podpieciaAccept); 
+app.get('/poleceniaOswiadczenie', routes.poleceniaOswiadczenie); 
 
 app.get('/pdf_wyjazdowy', routes.pdf_wyjazdowy);
 app.get('/pdf_potwierdzenie', routes.pdf_potwierdzenie);

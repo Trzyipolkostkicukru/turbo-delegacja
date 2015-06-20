@@ -9,64 +9,62 @@ html
         | dotycząca używania pojazdu niebędącego własnością pracodawcy
         | do celów służbowych (w jazdach zamiejscowych)
         center
-    | zawarta w dniu: {data} 
+    |     zawarta w dniu {data_wystawienia} 
     br
-    | pomiędzy Politechnika Białostocką, 15-351 Białystok, ul. Wiejska 45A, reprezentowaną przez 
+    |     pomiędzy Politechnika Białostocką, 15-351 Białystok, ul. Wiejska 45A, reprezentowaną przez 
     br
-    | {pracodawca}
+    |     {pracodawca}
     br
-    | zwaną dalej Pracodawcą
+    |     zwaną dalej Pracodawcą
     br
-    | a {pracownik},
+    |     a {uzytkownik},
     br
-    | zwanym dalej Pracownikiem.
-    br
+    |     zwanym dalej Pracownikiem.
     h3
       center  § 1 
+    |     Pracownik oświadcza, iż dysponuje pojazdem: {rodzaj}  marki
     br
-    | Pracownik oświadcza, iż dysponuje pojazdem: {rodzaj pojazdu}  marki
+    |     {marka} o numerze rejestracyjnym {numer_rejestracyjny},
     br
-    | {marka pojazdu} o numerze rejestracyjnym {numer rejestracyjny},
+    |     o pojemności silnika {pojemnosc} cm3, którego będzie używał do podróży służbowej
     br
-    | o pojemności silnika {pojemność silnika} cm3, którego będzie używał do podróży służbowej
-    br
-    | {czas i miejsce podróży}.
+    |     {czas} {miejsce}.
     h3
       center  § 2 
+    |     1. Pracodawca, w związku z korzystaniem przez Pracownika z pojazdu do celów służbowych,
     br
-    | 1. Pracodawca, w związku z korzystaniem przez Pracownika z pojazdu do celów służbowych,
+    |     zobowiązuje się do zwrotu kosztów używania w/w pojazdu w wysokości iloczynu przejechanych
     br
-    | zobowiązuje się do zwrotu kosztów używania w/w pojazdu w wysokości iloczynu przejechanych
+    |     kilometrów przez stawkę {stawka} zł/km.
     br
-    | kilometrów przez stawkę {stawka za kilometr} zł/km.
+    |     2. Zwrot kosztów nastąpi na podstawie polecenia wyjazdu służbowego nr {id_wniosek} z dnia
     br
-    | 2. Zwrot kosztów nastąpi na podstawie polecenia wyjazdu służbowego nr {nr wyjazdu} z dnia
-    br
-    | {data} oraz załączonej ewidencji przebiegu pojazdu i niniejszej umowy.
-    br
+    |     {data_wniosek} oraz załączonej ewidencji przebiegu pojazdu i niniejszej umowy.
     h3
       center  § 3 
+    |     1. Pracodawca nie ponosi odpowiedzialności za uszkodzenia pojazdu, o którym mowa w § 1
     br
-    | 1. Pracodawca nie ponosi odpowiedzialności za uszkodzenia pojazdu, o którym mowa w § 1
+    |     posiadanego przez pracownika (także w przypadku, gdy uszkodzenie powstało w czasie używania
     br
-    | posiadanego przez pracownika (także w przypadku, gdy uszkodzenie powstało w czasie używania
+    |     pojazdu do celów służbowych) i nie ponosi kosztów napraw bieżących, głównych i powypadkowych.
     br
-    | pojazdu do celów służbowych) i nie ponosi kosztów napraw bieżących, głównych i powypadkowych.
+    |     2. Pracodawca nie odpowiada za szkody spowodowane przez Pracownika w związku z używaniem
     br
-    | 2. Pracodawca nie odpowiada za szkody spowodowane przez Pracownika w związku z używaniem
-    br
-    | przez Niego pojazdu, o którym mowa w § 1 do celów służbowych.
-    br
+    |     przez Niego pojazdu, o którym mowa w § 1 do celów służbowych.
     h3
       center  § 4 
-    br
-    | Umowa została zawarta na okres od dnia {data rozpoczęcia} do dnia {data zakończenia}
+    |     Umowa została zawarta na okres od dnia {data_wyjazdu} do dnia {data_powrotu}
     h3
       center  § 5 
+    |     Umowę sporządzono w dwóch egzemplarzach, po jednym dla każdej ze stron.
     br
-    | Umowę sporządzono w dwóch egzemplarzach, po jednym dla każdej ze stron.
     br
     br
-    | {data i podpis pracownika}
-    br
-    | (data i podpis pracownika)
+    div(style='float:right; margin-right: 100px')
+      | {podpis_pracownika}
+      br
+      | (podpis pracownika)
+    div(style='float:left; margin-left: 100px')
+      | {id_reprezentant}
+      br
+      | (podpis reprezentanta)

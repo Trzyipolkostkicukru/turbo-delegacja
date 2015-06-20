@@ -1,7 +1,7 @@
 extends ../loggedLayout
 
 block content
-    h1 Oczekujące polecenia
+    h1 Wystawione polecenia
     p
       table(style='width:100%; text-align: center; margin-top: 10px' border='1')
         tbody
@@ -44,13 +44,21 @@ block content
                     td
                         //w trakcie wykonywania
                         span.glyphicon.glyphicon-certificate(style='color:magenta')
+                when 5
+                    td
+                        //w trakcie wykonywania
+                        span.glyphicon.glyphicon-certificate(style='color:brown')
             td
                 if val.Stan == 2
                     a(href='poleceniaAccept?Id='+val.Id)
                         button.btn.btn-default(type='submit') Podpisz
+                if val.Stan == 4
+                    a(href='poleceniaAutaAdd?Id='+val.Id)
+                        button.btn.btn-default(type='submit') Dodaj wniosek o auto
+                    a(href='poleceniaOswiadczenie?Id='+val.Id)
+                        button.btn.btn-default(type='submit') Wystaw oświadczenie
                 a(href='pdf_polecenia?Id='+val.Id)
                     button.btn.btn-default(type='submit') Szczegóły
-                br
                 a(href='/poleceniaRemove?Id='+val.Id)
                     button.btn.btn-default(type='submit') Anuluj
     table
@@ -73,4 +81,7 @@ block content
             td
                 span.glyphicon.glyphicon-certificate(style='color:magenta; padding: 5px') 
                     .divek(style='font-family: Arial; float: right') W trakcie wykonywania
+            td
+                span.glyphicon.glyphicon-certificate(style='color:brown; padding: 5px') 
+                    .divek(style='font-family: Arial; float: right') Gotowy
 

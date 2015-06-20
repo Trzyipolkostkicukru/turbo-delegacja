@@ -10,47 +10,20 @@ block content
         label
         .form-group
           label
-            | Pracodawca reprezentujący Politechnikę:
-          select.form-control(name="aaa")
-            option(value='1')
-              | Pan X
-            option(value='2')
-              | Pan Y
-            option(value='3')
-              | Pan Z
-            option(value='')
+            | Osoba reprezentująca Politechnikę:
+          select.form-control(name="pracodawca")
+            each val in users
+                option(value='#{val.Id}') #{val.Imie} #{val.Nazwisko}
       .form-group
         label
           | Wybierz pojazd:
-        select.form-control
-          option(value='1')
-            | Ford Focus 1.6
-          option(value='2')
-            | Volkswagen Golf 1.9
-          option(value='')
-          option(value='')
+        select.form-control(name='pojazd')
+            each val in vehicles
+                option(value='#{val.Id}') #{val.Marka} #{val.Rodzaj} #{val.Pojemnosc} cm3
       .form-group
         label
-          | Miejsce podróży:
-        input.form-control(type='text')
-        .form-group
-          label
-            | Czas podróży
-          input.form-control(type='text')
-          .form-group
-            label
-              | Iloczyn przejechanych kilometrow przez stawke:
-            input.form-control(placeholder='zl/km', type='text')
+            | Iloczyn przejechanych kilometrow przez stawke:
+        input.form-control(placeholder='zł/km', type='text', name='stawka')
+        input.form-control(type='hidden', name='id', value='#{EditTab}')
       .form-group
-        label
-          | Numer polecenia wyjazdu służbowego:
-        input.form-control(type='text')
-      .form-group
-        label
-          | Umowa od dnia:
-        input.form-control(placeholder='DD.MM.RR', type='text')
-      .form-group
-        label
-          | Umowa do dnia:
-        input.form-control(placeholder='DD.MM.RR', type='text')
-br
+        button.btn.btn-default(type='submit') Dodaj auto do wniosku

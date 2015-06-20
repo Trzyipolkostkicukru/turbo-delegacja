@@ -1,0 +1,19 @@
+extends ../loggedLayout
+
+block content
+    h1 Wystawione oswiadczenia
+    p
+      table(style='width:100%; text-align: center; margin-top: 10px' border='1')
+        tbody
+          tr(style='font-weight: bold')
+            td Id
+            td Numer wniosku
+            td Data wystawienia
+        each val, index in rows
+          tr
+            td= val.Id
+            td= val.Id_wniosek
+            td= val.Data_wystawienia
+            td
+                a(href='pdf_potwierdzenie?Id='+val.Id)
+                    button.btn.btn-default(type='submit') Szczegóły

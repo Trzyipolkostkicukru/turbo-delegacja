@@ -1,0 +1,56 @@
+extends ../loggedLayout
+
+block content
+    h1 Twoje wnioski o auto
+    p
+      table(style='width:100%; text-align: center; margin-top: 10px' border='1')
+        tbody
+          tr(style='font-weight: bold')
+            td Id
+            td Numer wniosku
+            td Pojazd
+            td Stawka 
+            td Data wystawienia
+            td Stan  
+        each val, index in rows
+            - var value = (val.Id_reprezentant == session["Podpis"] || val.Id_uzytkownik == val.User)
+            if value
+              tr
+                td= val.Id
+                td= val.Id_wniosek
+                td= val.Pojazd
+                td= val.Stawka
+                td= val.Data_wystawienia
+                case val.Stan
+                    when -1
+                        td
+                            //anulowany wniosek
+                            span.glyphicon.glyphicon-certificate(style='color:black')
+                    when 1
+                        td
+                            //nowy wniosek
+                            span.glyphicon.glyphicon-certificate(style='color:green')
+                    when 2
+                        td
+                            //zaakceptowany
+                            span.glyphicon.glyphicon-certificate(style='color:orange')
+                td
+                    if val.Stan == 1
+                        a(href='/podpieciaRemove?Id='+val.Id)
+                            button.btn.btn-default(type='submit') Anuluj
+                    if val.Stan == 1 && val.Id_reprezentant == session["Podpis"]
+                        a(href='/podpieciaAccept?Id='+val.Id)
+                            button.btn.btn-default(type='submit') Podpisz
+                    a(href='pdf_auto?Id='+val.Id)
+                        button.btn.btn-default(type='submit') Szczegóły
+    table
+        tr
+            td
+                span.glyphicon.glyphicon-certificate(style='color:black; padding: 5px') 
+                    .divek(style='font-family: Arial; float: right') Anulowany
+            td
+                span.glyphicon.glyphicon-certificate(style='color:green; padding: 5px') 
+                    .divek(style='font-family: Arial; float: right') Nowy
+            td
+                span.glyphicon.glyphicon-certificate(style='color:orange; padding: 5px') 
+                    .divek(style='font-family: Arial; float: right') Zaakceptowany
