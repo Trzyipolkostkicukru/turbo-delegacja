@@ -1,0 +1,84 @@
+html
+  body
+    center
+      h2 DRUK NR {id} Z DNIA {data_wystawienia}
+    center
+        .papla(style='font-size:small')
+          table(border='1', rules='all', width='100%')
+            tr
+              td(width='50%')
+                center
+                  br
+                  br
+                  | pieczątka jednostki organizacyjnej
+              td
+                center
+                  | STWIERDZENIE POBYTU SŁUŻBOWEGO (pieczęć Instytucji lub potwierdzenie przez
+                  | bezpośredniego przełożonego)
+            tr
+              td
+                b
+                  div(style='border:solid 2px; width:20; height: 20; padding-left:7; float:left; margin-right:5px; margin-left:5px; margin-top: 5px') {polecenie_wyjazdu}
+                  div(style='margin-left: 37; margin-top:7px') POLECENIE WYJAZDU SŁUŻBOWEGO*
+                  br
+                  div(style='border:solid 2px; width:20; height: 20; padding-left:7; float:left; position:fixed; margin-left:5px; margin-right:5px') {podnoszenie_kwalifikacji}
+                  div(style='margin-top:3px; margin-left: 42;') WYJAZD W RAMACH PODNOSZENIA
+                  |                         KWALIFIKACJI ZAWODOWYCH*
+                br
+                br
+                |                     dla {imienazwisko}
+                br
+                div(style='margin-left: 40px')
+                  | {stanowisko}
+                  br
+                  |                         do {miejsce}
+                  br
+                  |                         na czas od {data_wyjazdu} do {data_powrotu}
+                  br
+                  |                         w celu {cel}
+                  br
+                  |                         Źródło finansowania {zrodlo_finansowania}
+              td(rowspan='2')
+                center {id_upowaznionej}
+            tr
+              td
+                | Środki lokomocji (rodzaj, klasa)
+                br
+                |                     {srodek_lokomocji}
+                br
+                br
+            tr
+              td
+                div(style='margin-left: 30px; float:left')
+                  | {data_wystawienia}
+                div(style='margin-right: 30px; float:right')
+                  | {id_upowaznionej}
+                br
+                div(style='margin-left: 30px; float:left') data
+                div(style='margin-right: 30px; float:right') podpis
+              td
+                p(align='center')
+                  | Dział Spraw Personalnych
+                  br
+                  | {data_dzial} {podpis_dzial}
+                  br
+                  |  (data i podpis)
+                  br
+                  br
+        |     *zaznaczyć właściwe 
+        hr(style='border-top: dashed 1px; width:95%')
+        div
+          | Proszę o wypłacenie zaliczki w kwocie zł {suma} słownie zł {suma_slownie}
+          br
+          |         na pokrycie wydatków zgodnie z poleceniem wyjazdu służbowego nr {id} w dniach {data}
+          br
+          p(align='right', style='margin-right: 50px')
+            | {data_delegowany} {podpis_delegowany}
+            br
+            |             (data i podpis delegowanego)
+          |         Zatwierdzono na kwotę zł {suma} słownie zł {suma_slownie}
+          br
+          p(align='right', style='margin-right: 50px')
+            | {data_zaliczka} {id_podpis_zaliczka}
+            br
+            |             (data) (podpisy osób zatwierdzających zaliczkę do wypłaty)
