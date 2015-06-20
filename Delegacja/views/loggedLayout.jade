@@ -36,6 +36,7 @@ html
             li
               a(href='/contact') 
                 font(size='5') Kontakt
+
     p       
     .container(style="margin-top: 120px")
       .row
@@ -68,6 +69,10 @@ html
                       td
                         span.glyphicon.glyphicon-file.text-success
                         a(href='/moje_dane') Moje dane
+                    tr
+                      td
+                        span.glyphicon.glyphicon-file.text-success
+                        a(href='/moje_polecenia') Polecenia wyjazdu
             .panel.panel-default
               .panel-heading
                 h4.panel-title
@@ -106,6 +111,25 @@ html
                       td
                         span.glyphicon.glyphicon-flash.text-success
                         a(href='/wniosek_potwierdzenie') Potwierdzenie/Oświadczenie
+            - var sessionExist = (session["Ranga"] != "1");
+            if sessionExist
+                .panel.panel-default
+                  .panel-heading
+                    h4.panel-title
+                      a(data-toggle='collapse', data-parent='#accordion', href='#collapseFour')
+                        span.glyphicon.glyphicon-file
+                        | Zarządzanie
+                  #collapseFour.panel-collapse.collapse
+                    .panel-body
+                      table.table
+                        tr
+                          td
+                            span.glyphicon.glyphicon-usd
+                            a(href='/oczekujace_wnioski') Oczekujące wnioski
+                        tr
+                          td
+                            span.glyphicon.glyphicon-flash.text-success
+                            a(href='/oczekujace_polecenia') Polecenia wyjazdu
       hr
       footer
         p &copy; 2015 - #{year} Turbo Delegacja ver #{ver}

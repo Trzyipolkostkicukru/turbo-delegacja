@@ -76,6 +76,7 @@
     <Content Include="views\moje\moje_historia.jade" />
     <Content Include="views\moje\moje_auta.jade" />
     <Content Include="views\moje\moje_dane.jade" />
+    <Content Include="views\moje\moje_polecenia.jade" />
     <Content Include="views\moje\moje_wnioski.jade" />
     <Content Include="views\pdf\auto.jade" />
     <Content Include="views\pdf\html\auto.html" />
@@ -92,6 +93,8 @@
     <Content Include="views\wniosek\wniosek_auto.jade" />
     <Content Include="views\wniosek\wniosek_auto_przebieg.jade" />
     <Content Include="views\wniosek\wniosek_zaliczka.jade" />
+    <Content Include="views\zarzadzanie\oczekujace_polecenia.jade" />
+    <Content Include="views\zarzadzanie\oczekujace_wnioski.jade" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="public\" />
@@ -107,6 +110,7 @@
     <Folder Include="Scripts\typings\stylus\" />
     <Folder Include="views\" />
     <Folder Include="views\moje\" />
+    <Folder Include="views\zarzadzanie\" />
     <Folder Include="views\pdf\" />
     <Folder Include="views\pdf\html\" />
     <Folder Include="views\wniosek\" />

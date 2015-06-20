@@ -52,7 +52,7 @@ app.post('/wniosekWyjazdNew', (req, res) => {
 app.post('/wniosekZaliczkaNew', (req, res) => {
     res.redirect('pdf_zaliczka');
 });
-app.post('/logout',(req, res) => {
+app.get('/logout',(req, res) => {
     req.session.destroy(() => {});
     res.redirect('');
 });
@@ -65,7 +65,15 @@ app.get('/about', routes.about);
 app.get('/contact', routes.contact);
 
 app.get('/wniosek_wyjazdowy', routes.wniosek_wyjazdowy);
+app.post('/wniosek_wyjazdowyAccept', routes.wniosek_wyjazdowyAccept);
 app.post('/wniosek_wyjazdowyNew', routes.wniosek_wyjazdowyNew);
+app.get('/oczekujace_wnioski', routes.oczekujace_wnioski);
+
+app.get('/oczekujace_polecenia', routes.oczekujace_polecenia);
+app.get('/poleceniaAccept', routes.poleceniaAccept);
+app.get('/pdf_polecenia', routes.pdf_polecenia);
+app.get('/poleceniaRemove', routes.poleceniaRemove);
+app.get('/poleceniaNew', routes.poleceniaNew);
 
 app.get('/logged', routes.logged);
 app.get('/wniosek_auto', routes.wniosek_auto);
@@ -76,7 +84,7 @@ app.get('/moje_auta', routes.moje_auta);
 app.get('/moje_dane', routes.moje_dane);
 app.get('/moje_historia', routes.moje_historia);
 app.get('/moje_wnioski', routes.moje_wnioski);
-
+app.get('/moje_polecenia', routes.moje_polecenia);
 
 app.get('/pdf_wyjazdowy', routes.pdf_wyjazdowy);
 app.get('/pdf_potwierdzenie', routes.pdf_potwierdzenie);

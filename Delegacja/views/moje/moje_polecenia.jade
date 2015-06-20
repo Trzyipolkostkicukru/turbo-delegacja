@@ -1,0 +1,76 @@
+extends ../loggedLayout
+
+block content
+    h1 Oczekujące polecenia
+    p
+      table(style='width:100%; text-align: center; margin-top: 10px' border='1')
+        tbody
+          tr(style='font-weight: bold')
+            td Id
+            td Numer wniosku
+            td Tryb
+            td Kwota zatwierdzona 
+            td Data wystawienia
+            td Stan  
+        each val, index in rows
+          tr
+            td= val.Id
+            td= val.Id_wniosek
+            td= val.PolPod
+            td= val.Suma
+            td= val.Data_wystawienia
+            case val.Stan
+                when -1
+                    td
+                        //anulowane polecenie
+                        span.glyphicon.glyphicon-certificate(style='color:black')
+                when 0
+                    td
+                        //zakonczone polecenie
+                        span.glyphicon.glyphicon-certificate(style='color:red')
+                when 1
+                    td
+                        //nowe polecenie
+                        span.glyphicon.glyphicon-certificate(style='color:green')
+                when 2
+                    td
+                        //w trakcie podpisywania
+                        span.glyphicon.glyphicon-certificate(style='color:orange')
+                when 3
+                    td
+                        //zaakceptowane
+                        span.glyphicon.glyphicon-certificate(style='color:blue')
+                when 4
+                    td
+                        //w trakcie wykonywania
+                        span.glyphicon.glyphicon-certificate(style='color:magenta')
+            td
+                if val.Stan == 2
+                    a(href='poleceniaAccept?Id='+val.Id)
+                        button.btn.btn-default(type='submit') Podpisz
+                a(href='pdf_polecenia?Id='+val.Id)
+                    button.btn.btn-default(type='submit') Szczegóły
+                br
+                a(href='/poleceniaRemove?Id='+val.Id)
+                    button.btn.btn-default(type='submit') Anuluj
+    table
+        tr
+            td
+                span.glyphicon.glyphicon-certificate(style='color:black; padding: 5px') 
+                    .divek(style='font-family: Arial; float: right') Anulowane
+            td
+                span.glyphicon.glyphicon-certificate(style='color:red; padding: 5px') 
+                    .divek(style='font-family: Arial; float: right') Zakończone
+            td
+                span.glyphicon.glyphicon-certificate(style='color:green; padding: 5px') 
+                    .divek(style='font-family: Arial; float: right') Nowe
+            td
+                span.glyphicon.glyphicon-certificate(style='color:orange; padding: 5px') 
+                    .divek(style='font-family: Arial; float: right') Oczekuje na twój podpis
+            td
+                span.glyphicon.glyphicon-certificate(style='color:blue; padding: 5px') 
+                    .divek(style='font-family: Arial; float: right') Zaakceptowane
+            td
+                span.glyphicon.glyphicon-certificate(style='color:magenta; padding: 5px') 
+                    .divek(style='font-family: Arial; float: right') W trakcie wykonywania
+
