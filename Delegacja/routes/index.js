@@ -1,7 +1,8 @@
 var mysql = require('../mysqlHandler');
+var connection = require('mysql');
 var version = "0.0.1";
 var pdfCrowd = require('pdfcrowd');
-var pdfCrowdClient = new pdfCrowd.Pdfcrowd('biedronka', 'c9225df149b2469749d20b34c928cdff');
+var pdfCrowdClient = new pdfCrowd.Pdfcrowd('cukr', 'dea1070d952eb9626816605426eb08ad');
 var moment = require("moment");
 function index(req, res) {
     if (req.session["UsosLogin"] == null) {
@@ -20,6 +21,13 @@ function wniosek_wyjazdowy(req, res) {
         res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
 }
 exports.wniosek_wyjazdowy = wniosek_wyjazdowy;
+;
+function wniosekAutoNew(req, res) {
+    mysql.insertQuery("INSERT INTO UmowaAuto VALUES (NULL, NOW(), (SELECT Podpis FROM Uzytkownicy WHERE Id='" + req.body.pracodawca + "'), (SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "'), '" + req.body.pojazd + "', '" + req.body.id + "', '" + req.body.stawka + "', 1)");
+    mysql.updateQuery("UPDATE Przebiegi SET Id_wniosku='" + req.body.id + "', Id_pracodawcy=(SELECT Podpis FROM Uzytkownicy WHERE Id='" + req.body.pracodawca + "') WHERE Id='" + req.body.przebieg + "'");
+    moje_podpiecia(req, res);
+}
+exports.wniosekAutoNew = wniosekAutoNew;
 ;
 function wniosek_wyjazdowyNew(req, res) {
     var krajowy = (req.body.Kraj == "Polska") ? 1 : 0;
@@ -238,13 +246,13 @@ exports.poleceniaRemove = poleceniaRemove;
 function poleceniaAccept(req, res) {
     //if(req.session["Ranga"])
     var func = function (tab, req, res) {
-        if (tab.UsosLogin != parseInt(req.session["UsosLogin"]) && parseInt(req.session["Ranga"]) >= tab.Ranga && parseInt(req.session["Ranga"]) >= 3 && tab.Id_podpis_zaliczka == null) {
+        if (tab.UsosLogin != parseInt(req.session["UsosLogin"]) && parseInt(req.session["Ranga"]) >= tab.Ranga && parseInt(req.session["Ranga"]) >= 3 && tab.Podpis_dzial == null) {
             mysql.insertQuery("UPDATE ZgodaWniosekWyjazdowy SET Stan='2', Podpis_dzial='" + req.session["Podpis"] + "', Data_dzial=NOW() WHERE Id='" + req.query.Id + "'");
         }
-        else if (tab.UsosLogin == parseInt(req.session["UsosLogin"]) && tab.Id_podpis_zaliczka != null && tab.Podpis_delegowany == null) {
+        else if (tab.UsosLogin == parseInt(req.session["UsosLogin"]) && tab.Podpis_dzial != null && tab.Podpis_delegowany == null) {
             mysql.insertQuery("UPDATE ZgodaWniosekWyjazdowy SET Stan='3', Podpis_delegowany='" + req.session["Podpis"] + "', Data_delegowany=NOW() WHERE Id='" + req.query.Id + "'");
         }
-        else if (tab.UsosLogin != parseInt(req.session["UsosLogin"]) && parseInt(req.session["Ranga"]) >= tab.Ranga && parseInt(req.session["Ranga"]) >= 3 && tab.Id_podpis_zaliczka != null && tab.Podpis_delegowany != null) {
+        else if (tab.UsosLogin != parseInt(req.session["UsosLogin"]) && parseInt(req.session["Ranga"]) >= tab.Ranga && parseInt(req.session["Ranga"]) >= 3 && tab.Podpis_dzial != null && tab.Podpis_delegowany != null) {
             mysql.insertQuery("UPDATE ZgodaWniosekWyjazdowy SET Stan='4', Id_podpis_zaliczka='" + req.session["Podpis"] + "', Data_zaliczka=NOW() WHERE Id='" + req.query.Id + "'");
         }
         var func = function (tab, req, res) {
@@ -271,6 +279,13 @@ function poleceniaNew(req, res) {
 }
 exports.poleceniaNew = poleceniaNew;
 ;
+function poleceniaOswiadczenie(req, res) {
+    mysql.insertQuery("INSERT INTO Oswiadczenie VALUES (NULL, (SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "'), 'Politechnika Białostocka', '000111222', '" + req.query.Id + "', NOW())");
+    mysql.insertQuery("UPDATE ZgodaWniosekWyjazdowy SET Stan=5 WHERE Id='" + req.query.Id + "'");
+    moje_polecenia(req, res);
+}
+exports.poleceniaOswiadczenie = poleceniaOswiadczenie;
+;
 function moje_polecenia(req, res) {
     if (req.session["UsosLogin"] != null) {
         var func = function (tab, req, res) {
@@ -282,7 +297,7 @@ function moje_polecenia(req, res) {
                 else
                     tab[item].PolPod = "Podnoszenie kwalifikacji";
             }
-            res.render('zarzadzanie/oczekujace_polecenia', { year: new Date().getFullYear(), ver: version, rows: tab });
+            res.render('moje/moje_polecenia', { year: new Date().getFullYear(), ver: version, rows: tab });
         };
         mysql.selectQueries("SELECT *, (SELECT Diety+Przejazd+Zakwaterowanie+Wyzywienie+Oplata_konferencyjna+Inne FROM WniosekWyjazdowy WHERE Id=z.Id_wniosek) as Suma FROM ZgodaWniosekWyjazdowy z WHERE z.Id_wniosek IN (SELECT Id FROM WniosekWyjazdowy WHERE Id_uzytkownika=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "'))", func, [null, req, res]);
     }
@@ -291,22 +306,254 @@ function moje_polecenia(req, res) {
 }
 exports.moje_polecenia = moje_polecenia;
 ;
-function wniosek_auto(req, res) {
-    if (req.session["UsosLogin"] != null)
-        res.render('wniosek/wniosek_auto', { title: 'Wniosek Auto', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o auto.' });
+function moje_oswiadczenia(req, res) {
+    if (req.session["UsosLogin"] != null) {
+        var func = function (tab, req, res) {
+            for (var item in tab) {
+                moment.locale('pl');
+                tab[item].Data_wystawienia = moment(tab[item].Data_wystawienia.toISOString()).format("DD MMMM YYYY");
+            }
+            res.render('moje/moje_oswiadczenia', { year: new Date().getFullYear(), ver: version, rows: tab });
+        };
+        mysql.selectQueries("SELECT * FROM Oswiadczenie WHERE Id_uzytkownika=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "')", func, [null, req, res]);
+    }
     else
         res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
 }
-exports.wniosek_auto = wniosek_auto;
+exports.moje_oswiadczenia = moje_oswiadczenia;
+;
+function pdf_potwierdzenie(req, res) {
+    var func = function (tab, req, res) {
+        res.render('pdf/potwierdzenie', {}, function (err, html) {
+            if (html !== undefined) {
+                html = html.replace(/{pracownik}/g, tab.Imie + " " + tab.Nazwisko);
+                html = html.replace(/{jednostka}/g, tab.Jednostka);
+                html = html.replace(/{jednostka_numer}/g, tab.Jednostka_numer);
+                html = html.replace(/{data_wyjazdu}/g, moment(tab.Data_wyjazdu).format("DD.MM"));
+                html = html.replace(/{data_powrotu}/g, moment(tab.Data_powrotu).format("DD.MM"));
+                html = html.replace(/{data_wystawienia}/g, moment(tab.Data_wystawienia).format("DD.MM"));
+                html = html.replace(/{podpis}/g, tab.Podpis);
+                pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
+            }
+        });
+    };
+    mysql.selectQuery("SELECT *, (SELECT Podpis FROM Uzytkownicy WHERE Id=o.Id_uzytkownika) as Podpis, (SELECT Imie FROM Uzytkownicy WHERE Id=o.Id_uzytkownika) as Imie, (SELECT Nazwisko FROM Uzytkownicy WHERE Id=o.Id_uzytkownika) as Nazwisko, (SELECT Data_wyjazdu FROM WniosekWyjazdowy WHERE Id=(SELECT z.Id_wniosek FROM ZgodaWniosekWyjazdowy z WHERE z.Id=o.Id_wniosek)) as Data_wyjazdu, (SELECT Data_powrotu FROM WniosekWyjazdowy WHERE Id=(SELECT z.Id_wniosek FROM ZgodaWniosekWyjazdowy z WHERE z.Id=o.Id_wniosek)) as Data_powrotu FROM Oswiadczenie o WHERE Id='" + req.query.Id + "'", func, [null, req, res]);
+}
+exports.pdf_potwierdzenie = pdf_potwierdzenie;
+;
+function pdf_przebieg(req, res) {
+    var func = function (tab, req, res) {
+        res.render('pdf/przebieg', {}, function (err, html) {
+            if (html !== undefined) {
+                html = html.replace(/{jednostka}/g, tab.Jednostka_organizacyjna);
+                html = html.replace(/{danePracownika}/g, tab.Imie + " " + tab.Nazwisko);
+                if (tab.Id_wniosku != null)
+                    html = html.replace(/{numerPolecenia}/g, tab.Id_wniosku);
+                else
+                    html = html.replace(/{numerPolecenia}/g, " ");
+                html = html.replace(/{tabela}/g, tab.Tabela);
+                html = html.replace(/{dataPodpisPracownika}/g, tab.Podpis);
+                if (tab.Data != null)
+                    html = html.replace(/{data}/g, moment(tab.Data.toISOString()).format("DD MMMM YYYY"));
+                else
+                    html = html.replace(/{data}/g, " ");
+                if (tab.Id_pracodawcy != null)
+                    html = html.replace(/{dataPodpisPracodawcy}/g, tab.Id_pracodawcy);
+                else
+                    html = html.replace(/{dataPodpisPracodawcy}/g, " ");
+                pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
+            }
+        });
+    };
+    mysql.selectQuery("SELECT *, (SELECT Data_wystawienia FROM ZgodaWniosekWyjazdowy WHERE Id=o.Id_wniosku) as Data, (SELECT Podpis FROM Uzytkownicy WHERE Id=o.Id_uzytkownika) as Podpis, (SELECT Imie FROM Uzytkownicy WHERE Id=o.Id_uzytkownika) as Imie, (SELECT Nazwisko FROM Uzytkownicy WHERE Id=o.Id_uzytkownika) as Nazwisko FROM Przebiegi o WHERE Id='" + req.query.Id + "'", func, [null, req, res]);
+}
+exports.pdf_przebieg = pdf_przebieg;
+;
+function przebiegiRemove(req, res) {
+    if (req.session["UsosLogin"] != null) {
+        var func = function (tab, req, res) {
+            for (var item in tab) {
+                moment.locale('pl');
+                tab[item].Data_wystawienia = moment(tab[item].Data_wystawienia.toISOString()).format("DD MMMM YYYY");
+            }
+            res.render('moje/moje_przebiegi', { year: new Date().getFullYear(), ver: version, rows: tab });
+        };
+        mysql.updateQuery("UPDATE Przebiegi SET Stan=-1 WHERE Id='" + req.query.Id + "')");
+        mysql.selectQueries("SELECT *, (SELECT CONCAT_WS(' ', Marka, Rodzaj, Pojemnosc) as Pojazd FROM Pojazdy p WHERE p.Id=u.Id_pojazdu) as Pojazd FROM Przebiegi u WHERE Id_uzytkownik=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "') OR Id_reprezentant='" + req.session["Podpis"] + "'", func, [null, req, res]);
+    }
+    else
+        res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
+}
+exports.przebiegiRemove = przebiegiRemove;
+;
+function przebiegiAccept(req, res) {
+    if (req.session["UsosLogin"] != null) {
+        var func = function (tab, req, res) {
+            for (var item in tab) {
+                moment.locale('pl');
+                tab[item].Data_wystawienia = moment(tab[item].Data_wystawienia.toISOString()).format("DD MMMM YYYY");
+            }
+            res.render('moje/moje_przebiegi', { year: new Date().getFullYear(), ver: version, rows: tab });
+        };
+        mysql.updateQuery("UPDATE Przebiegi SET Stan=2 WHERE Id='" + req.query.Id + "'");
+        mysql.selectQueries("SELECT *, (SELECT CONCAT_WS(' ', Marka, Rodzaj, Pojemnosc) as Pojazd FROM Pojazdy p WHERE p.Id=u.Id_pojazdu) as Pojazd FROM Przebiegi u WHERE Id_uzytkownik=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "') OR Id_reprezentant='" + req.session["Podpis"] + "'", func, [null, req, res]);
+    }
+    else
+        res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
+}
+exports.przebiegiAccept = przebiegiAccept;
+;
+function moje_przebiegi(req, res) {
+    if (req.session["UsosLogin"] != null) {
+        var func = function (tab, req, res) {
+            for (var item in tab) {
+                moment.locale('pl');
+                tab[item].Data_wystawienia = moment(tab[item].Data_wystawienia.toISOString()).format("DD MMMM YYYY");
+            }
+            res.render('moje/moje_przebiegi', { year: new Date().getFullYear(), ver: version, rows: tab });
+        };
+        mysql.selectQueries("SELECT *, (SELECT CONCAT_WS(' ', Marka, Rodzaj, Pojemnosc) as Pojazd FROM Pojazdy p WHERE p.Id=u.Id_pojazdu) as Pojazd FROM Przebiegi u WHERE Id_uzytkownika=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "') OR Id_pracodawcy='" + req.session["Podpis"] + "'", func, [null, req, res]);
+    }
+    else
+        res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
+}
+exports.moje_przebiegi = moje_przebiegi;
+;
+function wniosek_auto_przebieg(req, res) {
+    if (req.session["UsosLogin"] != null)
+        res.render('wniosek/wniosek_auto_przebieg', { title: 'Przebieg auta', year: new Date().getFullYear(), ver: version, message: 'Wypełnij przebieg auta.', Id: req.query.Id });
+    else
+        res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
+}
+exports.wniosek_auto_przebieg = wniosek_auto_przebieg;
+;
+function wniosek_auto_przebiegPost(req, res) {
+    mysql.insertQuery("INSERT INTO Przebiegi VALUES (NULL, (SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "'), NULL, 'Politechnika Białostocka', NULL, '" + req.body.Tablica + "', '" + req.body.Id + "', 1, NOW())");
+    moje_przebiegi(req, res);
+}
+exports.wniosek_auto_przebiegPost = wniosek_auto_przebiegPost;
+;
+function moje_podpiecia(req, res) {
+    if (req.session["UsosLogin"] != null) {
+        var func = function (tab, req, res) {
+            for (var item in tab) {
+                moment.locale('pl');
+                tab[item].Data_wystawienia = moment(tab[item].Data_wystawienia.toISOString()).format("DD MMMM YYYY");
+            }
+            res.render('moje/moje_podpiecia', { year: new Date().getFullYear(), ver: version, rows: tab });
+        };
+        mysql.selectQueries("SELECT *, (SELECT CONCAT_WS(' ', Marka, Rodzaj, Pojemnosc) as Pojazd FROM Pojazdy p WHERE p.Id=u.Id_pojazdu) as Pojazd, (SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "') as User FROM UmowaAuto u WHERE Id_uzytkownik=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "') OR Id_reprezentant='" + req.session["Podpis"] + "'", func, [null, req, res]);
+    }
+    else
+        res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
+}
+exports.moje_podpiecia = moje_podpiecia;
+;
+function podpieciaRemove(req, res) {
+    if (req.session["UsosLogin"] != null) {
+        var func = function (tab, req, res) {
+            for (var item in tab) {
+                moment.locale('pl');
+                tab[item].Data_wystawienia = moment(tab[item].Data_wystawienia.toISOString()).format("DD MMMM YYYY");
+            }
+            res.render('moje/moje_podpiecia', { year: new Date().getFullYear(), ver: version, rows: tab });
+        };
+        mysql.updateQuery("UPDATE UmowaAuto SET Stan=-1 WHERE Id='" + req.query.Id + "')");
+        mysql.selectQueries("SELECT *, (SELECT CONCAT_WS(' ', Marka, Rodzaj, Pojemnosc) as Pojazd FROM Pojazdy p WHERE p.Id=u.Id_pojazdu) as Pojazd, (SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "') as User FROM UmowaAuto u WHERE Id_uzytkownik=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "') OR Id_reprezentant='" + req.session["Podpis"] + "'", func, [null, req, res]);
+    }
+    else
+        res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
+}
+exports.podpieciaRemove = podpieciaRemove;
+;
+function podpieciaAccept(req, res) {
+    if (req.session["UsosLogin"] != null) {
+        var func = function (tab, req, res) {
+            for (var item in tab) {
+                moment.locale('pl');
+                tab[item].Data_wystawienia = moment(tab[item].Data_wystawienia.toISOString()).format("DD MMMM YYYY");
+            }
+            res.render('moje/moje_podpiecia', { year: new Date().getFullYear(), ver: version, rows: tab });
+        };
+        mysql.updateQuery("UPDATE UmowaAuto SET Stan=2 WHERE Id='" + req.query.Id + "'");
+        mysql.selectQueries("SELECT *, (SELECT CONCAT_WS(' ', Marka, Rodzaj, Pojemnosc) as Pojazd FROM Pojazdy p WHERE p.Id=u.Id_pojazdu) as Pojazd, (SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "') as User FROM UmowaAuto u WHERE Id_uzytkownik=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "') OR Id_reprezentant='" + req.session["Podpis"] + "'", func, [null, req, res]);
+    }
+    else
+        res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
+}
+exports.podpieciaAccept = podpieciaAccept;
 ;
 function pdf_auto(req, res) {
-    res.render('pdf/auto', {}, function (err, html) {
-        process.stdout.write(req.param("aaa", "fff"));
-        pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
-    });
+    var func = function (tab, req, res) {
+        res.render('pdf/auto', {}, function (err, html) {
+            if (html !== undefined) {
+                html = html.replace(/{data_wystawienia}/g, moment(tab.Data_wystawienia.toISOString()).format("DD.MM.YYYY"));
+                html = html.replace(/{pracodawca}/g, tab.Pracodawca_imie + " " + tab.Pracodawca_nazwisko);
+                html = html.replace(/{uzytkownik}/g, tab.Imie + " " + tab.Nazwisko);
+                html = html.replace(/{rodzaj}/g, tab.Rodzaj);
+                html = html.replace(/{marka}/g, tab.Marka);
+                html = html.replace(/{numer_rejestracyjny}/g, tab.Numer_rejestracyjny);
+                html = html.replace(/{pojemnosc}/g, tab.Pojemnosc);
+                html = html.replace(/{czas}/g, moment(tab.Data_wyjazdu.toISOString()).format("DD.MM") + "-" + moment(tab.Data_powrotu.toISOString()).format("DD.MM.YYYY"));
+                html = html.replace(/{miejsce}/g, tab.Miejscowosc + " " + tab.Kraj);
+                html = html.replace(/{stawka}/g, tab.Stawka);
+                html = html.replace(/{id_wniosek}/g, tab.Id_wniosek);
+                html = html.replace(/{data_wniosek}/g, moment(tab.Data_wniosek.toISOString()).format("DD.MM.YYYY"));
+                html = html.replace(/{data_wyjazdu}/g, moment(tab.Data_wyjazdu.toISOString()).format("DD.MM"));
+                html = html.replace(/{data_powrotu}/g, moment(tab.Data_powrotu.toISOString()).format("DD.MM"));
+                if (tab.Stan == 2)
+                    html = html.replace(/{id_reprezentant}/g, tab.Id_reprezentant);
+                else
+                    html.replace(/{id_reprezentant}/g, " ");
+                html = html.replace(/{podpis_pracownika}/g, tab.Podpis);
+                pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
+            }
+        });
+    };
+    mysql.selectQuery("SELECT u.*, p.Rodzaj, p.Marka, p.Numer_rejestracyjny, p.Pojemnosc, uz.Podpis, uz.Imie, uz.Nazwisko, w.Data_wyjazdu, w.Data_powrotu, w.Miejscowosc, w.Kraj, z.Data_wystawienia as Data_wniosek, (SELECT Imie FROM Uzytkownicy WHERE Podpis=u.Id_reprezentant) as Pracodawca_imie, (SELECT Nazwisko FROM Uzytkownicy WHERE Podpis=u.Id_reprezentant) as Pracodawca_nazwisko FROM UmowaAuto u, ZgodaWniosekWyjazdowy z, Pojazdy p, WniosekWyjazdowy w, Uzytkownicy uz WHERE u.Id='" + req.query.Id + "' AND u.Id_wniosek=z.Id AND z.Id_wniosek=w.Id AND w.Id_uzytkownika=uz.Id AND p.Id=u.Id_pojazdu", func, [null, req, res]);
 }
 exports.pdf_auto = pdf_auto;
 ;
+function poleceniaAutaAdd(req, res) {
+    if (req.session["UsosLogin"] != null) {
+        var pool = connection.createPool({
+            host: 'atomic-jumpers.xaa.pl',
+            user: 'atomicju_db',
+            database: 'atomicju_db',
+            password: 'turbo',
+        });
+        pool.getConnection(function (err, conn) {
+            var tab = { Id: parseInt(req.query.Id), users: null, vehicles: null, przebiegs: null };
+            conn.query("SELECT Id FROM Przebiegi WHERE Id_uzytkownika=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "')", function (err, rows, fields) {
+                if (err)
+                    throw err;
+                tab.przebiegs = rows;
+            });
+            conn.query("SELECT Imie, Nazwisko, Id FROM Uzytkownicy WHERE Id!=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "')", function (err, rows, fields) {
+                if (err)
+                    throw err;
+                tab.users = rows;
+            });
+            conn.query("SELECT Rodzaj, Marka, Pojemnosc, Id FROM Pojazdy WHERE Wlasciciel_id=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "')", function (err, rows, fields) {
+                if (err)
+                    throw err;
+                tab.vehicles = rows;
+                res.render('wniosek/wniosek_auto', { year: new Date().getFullYear(), ver: version, users: tab.users, EditTab: tab.Id, vehicles: tab.vehicles, przebiegs: tab.przebiegs });
+                conn.destroy();
+            });
+        });
+    }
+    else
+        res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
+}
+exports.poleceniaAutaAdd = poleceniaAutaAdd;
+;
+/*
+export function wniosek_auto(req: express.Request, res: express.Response) {
+    if (req.session["UsosLogin"] != null)
+    res.render('wniosek/wniosek_auto', { title: 'Wniosek Auto', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o auto.' });
+    else res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
+};*/
 function wniosek_zaliczka(req, res) {
     if (req.session["UsosLogin"] != null)
         res.render('wniosek/wniosek_zaliczka', { title: 'Wniosek Zaliczka', year: new Date().getFullYear(), ver: version, message: 'Wypełnij wniosek o zaliczkę.' });
@@ -383,14 +630,56 @@ function moje_autaEditSave(req, res) {
 }
 exports.moje_autaEditSave = moje_autaEditSave;
 ;
-function moje_dane(req, res) {
+function moje_daneGet(req, res) {
     if (req.session["UsosLogin"] != null) {
-        res.render('moje/moje_dane', { title: 'Moje dane', year: new Date().getFullYear(), ver: version, message: 'Zobacz informacje związane z danymi.' });
+        var pool = connection.createPool({
+            host: 'atomic-jumpers.xaa.pl',
+            user: 'atomicju_db',
+            database: 'atomicju_db',
+            password: 'turbo',
+        });
+        pool.getConnection(function (err, conn) {
+            var tab = { rest: null, users: null };
+            conn.query("SELECT * FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "'", function (err, rows, fields) {
+                if (err)
+                    throw err;
+                tab.rest = rows[0];
+            });
+            conn.query("SELECT Imie, Nazwisko, Id FROM Uzytkownicy WHERE Id!=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "')", function (err, rows, fields) {
+                if (err)
+                    throw err;
+                tab.users = rows;
+                res.render('moje/moje_dane', { year: new Date().getFullYear(), ver: version, users: tab.users, EditTab: tab.rest });
+                conn.destroy();
+            });
+        });
     }
     else
         res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
 }
-exports.moje_dane = moje_dane;
+exports.moje_daneGet = moje_daneGet;
+;
+function moje_danePost(req, res) {
+    if (req.session["UsosLogin"] != null) {
+        var pool = connection.createPool({
+            host: 'atomic-jumpers.xaa.pl',
+            user: 'atomicju_db',
+            database: 'atomicju_db',
+            password: 'turbo',
+        });
+        pool.getConnection(function (err, conn) {
+            conn.query("UPDATE Uzytkownicy SET Imie= '" + req.body.Imie + "', Nazwisko = '" + req.body.Nazwisko + "', Kontakt = '" + req.body.Kontakt + "', Przelozony = '" + req.body.Przelozony + "', Stopien = '" + req.body.Stopien + "' WHERE UsosLogin= '" + req.session["UsosLogin"] + "'", function (err, rows, fields) {
+                if (err)
+                    throw err;
+                conn.destroy();
+                moje_daneGet(req, res);
+            });
+        });
+    }
+    else
+        res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
+}
+exports.moje_danePost = moje_danePost;
 ;
 function moje_historia(req, res) {
     if (req.session["UsosLogin"] != null) {
@@ -433,21 +722,6 @@ function pdf_zaliczka(req, res) {
 }
 exports.pdf_zaliczka = pdf_zaliczka;
 ;
-function wniosek_auto_przebieg(req, res) {
-    if (req.session["UsosLogin"] != null)
-        res.render('wniosek/wniosek_auto_przebieg', { title: 'Przebieg auta', year: new Date().getFullYear(), ver: version, message: 'Wypełnij przebieg auta.' });
-    else
-        res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
-}
-exports.wniosek_auto_przebieg = wniosek_auto_przebieg;
-;
-function pdf_przebieg(req, res) {
-    res.render('pdf/przebieg', {}, function (err, html) {
-        pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
-    });
-}
-exports.pdf_przebieg = pdf_przebieg;
-;
 function wniosek_potwierdzenie(req, res) {
     if (req.session["UsosLogin"] != null)
         res.render('wniosek/wniosek_potwierdzenie', { title: 'Potwierdzenie wyjazdu', year: new Date().getFullYear(), ver: version, message: 'Wystaw oświadczenie.' });
@@ -455,13 +729,6 @@ function wniosek_potwierdzenie(req, res) {
         res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
 }
 exports.wniosek_potwierdzenie = wniosek_potwierdzenie;
-;
-function pdf_potwierdzenie(req, res) {
-    res.render('pdf/potwierdzenie', {}, function (err, html) {
-        pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
-    });
-}
-exports.pdf_potwierdzenie = pdf_potwierdzenie;
 ;
 function contact(req, res) {
     res.render('contact', { title: 'Kontakt', year: new Date().getFullYear(), ver: version, message: 'Gdzie nas można złapać?' });

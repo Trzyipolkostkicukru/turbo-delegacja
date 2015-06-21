@@ -34,21 +34,6 @@ app.post('/', function (req, res) {
         mysql.selectQuery("SELECT * FROM Uzytkownicy WHERE UsosLogin='" + req.body.User + "'", checkUser, arguments);
     }
 });
-app.post('/wniosekAutoNew', function (req, res) {
-    res.redirect('pdf_auto');
-});
-app.post('/wniosekAutoPrzebiegNew', function (req, res) {
-    res.redirect('pdf_przebieg');
-});
-app.post('/wniosekPotwierdzenieNew', function (req, res) {
-    res.redirect('pdf_potwierdzenie');
-});
-app.post('/wniosekWyjazdNew', function (req, res) {
-    res.redirect('pdf_wyjazdowy');
-});
-app.post('/wniosekZaliczkaNew', function (req, res) {
-    res.redirect('pdf_zaliczka');
-});
 app.get('/logout', function (req, res) {
     req.session.destroy(function () {
     });
@@ -69,16 +54,28 @@ app.get('/poleceniaAccept', routes.poleceniaAccept);
 app.get('/pdf_polecenia', routes.pdf_polecenia);
 app.get('/poleceniaRemove', routes.poleceniaRemove);
 app.get('/poleceniaNew', routes.poleceniaNew);
+app.get('/poleceniaAutaAdd', routes.poleceniaAutaAdd);
 app.get('/logged', routes.logged);
-app.get('/wniosek_auto', routes.wniosek_auto);
+//app.get('/wniosek_auto', routes.wniosek_auto);
 app.get('/wniosek_auto_przebieg', routes.wniosek_auto_przebieg);
+app.post('/wniosek_auto_przebieg', routes.wniosek_auto_przebiegPost);
+app.post('/wniosekAutoNew', routes.wniosekAutoNew);
 app.get('/wniosek_zaliczka', routes.wniosek_zaliczka);
 app.get('/wniosek_potwierdzenie', routes.wniosek_potwierdzenie);
 app.get('/moje_auta', routes.moje_auta);
-app.get('/moje_dane', routes.moje_dane);
+app.get('/moje_dane', routes.moje_daneGet);
+app.post('/moje_dane', routes.moje_danePost);
 app.get('/moje_historia', routes.moje_historia);
 app.get('/moje_wnioski', routes.moje_wnioski);
 app.get('/moje_polecenia', routes.moje_polecenia);
+app.get('/moje_podpiecia', routes.moje_podpiecia);
+app.get('/moje_przebiegi', routes.moje_przebiegi);
+app.get('/przebiegiAccept', routes.przebiegiAccept);
+app.get('/przebiegiRemove', routes.przebiegiRemove);
+app.get('/moje_oswiadczenia', routes.moje_oswiadczenia);
+app.get('/podpieciaRemove', routes.podpieciaRemove);
+app.get('/podpieciaAccept', routes.podpieciaAccept);
+app.get('/poleceniaOswiadczenie', routes.poleceniaOswiadczenie);
 app.get('/pdf_wyjazdowy', routes.pdf_wyjazdowy);
 app.get('/pdf_potwierdzenie', routes.pdf_potwierdzenie);
 app.get('/pdf_auto', routes.pdf_auto);
