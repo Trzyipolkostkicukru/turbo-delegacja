@@ -21,6 +21,7 @@ export function wniosek_wyjazdowy(req: express.Request, res: express.Response) {
 
 export function wniosekAutoNew(req: express.Request, res: express.Response) {
     mysql.insertQuery("INSERT INTO UmowaAuto VALUES (NULL, NOW(), (SELECT Podpis FROM Uzytkownicy WHERE Id='" + req.body.pracodawca + "'), (SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "'), '" + req.body.pojazd+"', '"+req.body.id+"', '"+req.body.stawka+"', 1)");
+    mysql.updateQuery("UPDATE Przebiegi SET Id_wniosku='" + req.body.id + "', Id_pracodawcy=(SELECT Podpis FROM Uzytkownicy WHERE Id='" + req.body.pracodawca + "') WHERE Id='" + req.body.przebieg+"'");
     moje_podpiecia(req, res);
 };
 
@@ -303,6 +304,83 @@ export function pdf_potwierdzenie(req: express.Request, res: express.Response) {
     mysql.selectQuery("SELECT *, (SELECT Podpis FROM Uzytkownicy WHERE Id=o.Id_uzytkownika) as Podpis, (SELECT Imie FROM Uzytkownicy WHERE Id=o.Id_uzytkownika) as Imie, (SELECT Nazwisko FROM Uzytkownicy WHERE Id=o.Id_uzytkownika) as Nazwisko, (SELECT Data_wyjazdu FROM WniosekWyjazdowy WHERE Id=(SELECT z.Id_wniosek FROM ZgodaWniosekWyjazdowy z WHERE z.Id=o.Id_wniosek)) as Data_wyjazdu, (SELECT Data_powrotu FROM WniosekWyjazdowy WHERE Id=(SELECT z.Id_wniosek FROM ZgodaWniosekWyjazdowy z WHERE z.Id=o.Id_wniosek)) as Data_powrotu FROM Oswiadczenie o WHERE Id='"+req.query.Id+"'", func, [null, req, res]);
 };
 
+export function pdf_przebieg(req: express.Request, res: express.Response) {
+    var func = (tab: any, req: express.Request, res: express.Response) => {
+        res.render('pdf/przebieg', {},(err, html) => {
+            if (html !== undefined) {
+                html = html.replace(/{jednostka}/g, tab.Jednostka_organizacyjna);
+                html = html.replace(/{danePracownika}/g, tab.Imie + " " + tab.Nazwisko);
+
+                if (tab.Id_wniosku != null) html = html.replace(/{numerPolecenia}/g, tab.Id_wniosku);
+                else html = html.replace(/{numerPolecenia}/g, " ");
+
+                html = html.replace(/{tabela}/g, tab.Tabela);
+                html = html.replace(/{dataPodpisPracownika}/g, tab.Podpis);
+
+                if (tab.Data != null) html = html.replace(/{data}/g, moment(tab.Data.toISOString()).format("DD MMMM YYYY"));
+                else html = html.replace(/{data}/g, " ");
+
+                if (tab.Id_pracodawcy != null) html = html.replace(/{dataPodpisPracodawcy}/g, tab.Id_pracodawcy);
+                else html = html.replace(/{dataPodpisPracodawcy}/g, " ");
+
+                pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
+            }
+        });
+    };
+    mysql.selectQuery("SELECT *, (SELECT Data_wystawienia FROM ZgodaWniosekWyjazdowy WHERE Id=o.Id_wniosku) as Data, (SELECT Podpis FROM Uzytkownicy WHERE Id=o.Id_uzytkownika) as Podpis, (SELECT Imie FROM Uzytkownicy WHERE Id=o.Id_uzytkownika) as Imie, (SELECT Nazwisko FROM Uzytkownicy WHERE Id=o.Id_uzytkownika) as Nazwisko FROM Przebiegi o WHERE Id='" + req.query.Id + "'", func, [null, req, res]);
+};
+
+export function przebiegiRemove(req: express.Request, res: express.Response) {
+    if (req.session["UsosLogin"] != null) {
+        var func = (tab: any, req: express.Request, res: express.Response) => {
+            for (var item in tab) {
+                moment.locale('pl');
+                tab[item].Data_wystawienia = moment(tab[item].Data_wystawienia.toISOString()).format("DD MMMM YYYY");
+            }
+            res.render('moje/moje_przebiegi', { year: new Date().getFullYear(), ver: version, rows: tab });
+        }
+        mysql.updateQuery("UPDATE Przebiegi SET Stan=-1 WHERE Id='" + req.query.Id + "')");
+        mysql.selectQueries("SELECT *, (SELECT CONCAT_WS(' ', Marka, Rodzaj, Pojemnosc) as Pojazd FROM Pojazdy p WHERE p.Id=u.Id_pojazdu) as Pojazd FROM Przebiegi u WHERE Id_uzytkownik=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "') OR Id_reprezentant='" + req.session["Podpis"] + "'", func, [null, req, res]);
+    } else res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
+};
+
+export function przebiegiAccept(req: express.Request, res: express.Response) {
+    if (req.session["UsosLogin"] != null) {
+        var func = (tab: any, req: express.Request, res: express.Response) => {
+            for (var item in tab) {
+                moment.locale('pl');
+                tab[item].Data_wystawienia = moment(tab[item].Data_wystawienia.toISOString()).format("DD MMMM YYYY");
+            }
+            res.render('moje/moje_przebiegi', { year: new Date().getFullYear(), ver: version, rows: tab });
+        }
+        mysql.updateQuery("UPDATE Przebiegi SET Stan=2 WHERE Id='" + req.query.Id + "'");
+        mysql.selectQueries("SELECT *, (SELECT CONCAT_WS(' ', Marka, Rodzaj, Pojemnosc) as Pojazd FROM Pojazdy p WHERE p.Id=u.Id_pojazdu) as Pojazd FROM Przebiegi u WHERE Id_uzytkownik=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "') OR Id_reprezentant='" + req.session["Podpis"] + "'", func, [null, req, res]);
+    } else res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
+};
+
+export function moje_przebiegi(req: express.Request, res: express.Response) {
+    if (req.session["UsosLogin"] != null) {
+        var func = (tab: any, req: express.Request, res: express.Response) => {
+            for (var item in tab) {
+                moment.locale('pl');
+                tab[item].Data_wystawienia = moment(tab[item].Data_wystawienia.toISOString()).format("DD MMMM YYYY");
+            }
+            res.render('moje/moje_przebiegi', { year: new Date().getFullYear(), ver: version, rows: tab });
+        }
+        mysql.selectQueries("SELECT *, (SELECT CONCAT_WS(' ', Marka, Rodzaj, Pojemnosc) as Pojazd FROM Pojazdy p WHERE p.Id=u.Id_pojazdu) as Pojazd FROM Przebiegi u WHERE Id_uzytkownika=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "') OR Id_pracodawcy='" + req.session["Podpis"] + "'", func, [null, req, res]);
+    } else res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
+};
+
+export function wniosek_auto_przebieg(req: express.Request, res: express.Response) {
+    if (req.session["UsosLogin"] != null)
+        res.render('wniosek/wniosek_auto_przebieg', { title: 'Przebieg auta', year: new Date().getFullYear(), ver: version, message: 'Wypełnij przebieg auta.', Id: req.query.Id });
+    else res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
+};
+
+export function wniosek_auto_przebiegPost(req: express.Request, res: express.Response) {
+    mysql.insertQuery("INSERT INTO Przebiegi VALUES (NULL, (SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "'), NULL, 'Politechnika Białostocka', NULL, '"+req.body.Tablica+"', '"+req.body.Id+"', 1, NOW())");
+    moje_przebiegi(req, res);
+};
 
 export function moje_podpiecia(req: express.Request, res: express.Response) {
     if (req.session["UsosLogin"] != null) {
@@ -383,7 +461,11 @@ export function poleceniaAutaAdd(req: express.Request, res: express.Response) {
             password: 'turbo',
         });
         pool.getConnection((err, conn) => {
-            var tab = { Id: parseInt(req.query.Id), users: null, vehicles: null };
+            var tab = { Id: parseInt(req.query.Id), users: null, vehicles: null, przebiegs: null };
+            conn.query("SELECT Id FROM Przebiegi WHERE Id_uzytkownika=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "')",(err, rows, fields) => {
+                if (err) throw err;
+                tab.przebiegs = rows;
+            });
             conn.query("SELECT Imie, Nazwisko, Id FROM Uzytkownicy WHERE Id!=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='"+req.session["UsosLogin"]+"')",(err, rows, fields) => {
                 if (err) throw err;
                 tab.users = rows;
@@ -391,7 +473,7 @@ export function poleceniaAutaAdd(req: express.Request, res: express.Response) {
             conn.query("SELECT Rodzaj, Marka, Pojemnosc, Id FROM Pojazdy WHERE Wlasciciel_id=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "')",(err, rows, fields) => {
                 if (err) throw err;
                 tab.vehicles = rows;
-                res.render('wniosek/wniosek_auto', { year: new Date().getFullYear(), ver: version, users: tab.users, EditTab: tab.Id, vehicles: tab.vehicles });
+                res.render('wniosek/wniosek_auto', { year: new Date().getFullYear(), ver: version, users: tab.users, EditTab: tab.Id, vehicles: tab.vehicles, przebiegs: tab.przebiegs });
                 conn.destroy();
             });
         });
@@ -465,13 +547,48 @@ export function moje_autaEditSave(req: express.Request, res: express.Response) {
     } else res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
 };
 
-
-export function moje_dane(req: express.Request, res: express.Response) {
+export function moje_daneGet(req: express.Request, res: express.Response) {
     if (req.session["UsosLogin"] != null) {
-
-        res.render('moje/moje_dane', { title: 'Moje dane', year: new Date().getFullYear(), ver: version, message: 'Zobacz informacje związane z danymi.' });
+        var pool = connection.createPool({
+            host: 'atomic-jumpers.xaa.pl',
+            user: 'atomicju_db',
+            database: 'atomicju_db',
+            password: 'turbo',
+        });
+        pool.getConnection((err, conn) => {
+            var tab = { rest: null, users: null };
+            conn.query("SELECT * FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "'",(err, rows, fields) => {
+                if (err) throw err;
+                tab.rest = rows[0];
+            });
+            conn.query("SELECT Imie, Nazwisko, Id FROM Uzytkownicy WHERE Id!=(SELECT Id FROM Uzytkownicy WHERE UsosLogin='" + req.session["UsosLogin"] + "')",(err, rows, fields) => {
+                if (err) throw err;
+                tab.users = rows;
+                res.render('moje/moje_dane', { year: new Date().getFullYear(), ver: version, users: tab.users, EditTab: tab.rest });
+                conn.destroy();
+            });
+        });
     } else res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
 };
+
+export function moje_danePost(req: express.Request, res: express.Response) {
+    if (req.session["UsosLogin"] != null) {
+        var pool = connection.createPool({
+            host: 'atomic-jumpers.xaa.pl',
+            user: 'atomicju_db',
+            database: 'atomicju_db',
+            password: 'turbo',
+        });
+        pool.getConnection((err, conn) => {
+            conn.query("UPDATE Uzytkownicy SET Imie= '" + req.body.Imie + "', Nazwisko = '" + req.body.Nazwisko + "', Kontakt = '" + req.body.Kontakt + "', Przelozony = '" + req.body.Przelozony + "', Stopien = '"+req.body.Stopien+"' WHERE UsosLogin= '" + req.session["UsosLogin"] + "'",(err, rows, fields) => {
+                if (err) throw err;
+                conn.destroy();
+                moje_daneGet(req, res);
+            });
+        });
+    } else res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
+};
+
 
 export function moje_historia(req: express.Request, res: express.Response) {
     if (req.session["UsosLogin"] != null) {
@@ -508,18 +625,6 @@ export function pdf_zaliczka(req: express.Request, res: express.Response) {
 
 
 
-        pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
-    });
-};
-
-export function wniosek_auto_przebieg(req: express.Request, res: express.Response) {
-    if (req.session["UsosLogin"] != null) 
-        res.render('wniosek/wniosek_auto_przebieg', { title: 'Przebieg auta', year: new Date().getFullYear(), ver: version, message: 'Wypełnij przebieg auta.' });
-    else res.render('index', { title: 'Express', year: new Date().getFullYear(), ver: version });
-};
-
-export function pdf_przebieg(req: express.Request, res: express.Response) {
-    res.render('pdf/przebieg', {}, (err, html) => {
         pdfCrowdClient.convertHtml(html, pdfCrowd.sendHttpResponse(res));
     });
 };

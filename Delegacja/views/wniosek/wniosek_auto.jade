@@ -22,6 +22,12 @@ block content
                 option(value='#{val.Id}') #{val.Marka} #{val.Rodzaj} #{val.Pojemnosc} cm3
       .form-group
         label
+          | Wybierz przebieg dla pojazdu:
+        select.form-control(name='przebieg')
+            each val in przebiegs
+                option(value='#{val.Id}') ID: #{val.Id}
+      .form-group
+        label
             | Iloczyn przejechanych kilometrow przez stawke:
         input.form-control(placeholder='zł/km', type='text', name='stawka')
         input.form-control(type='hidden', name='id', value='#{EditTab}')

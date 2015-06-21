@@ -3,54 +3,39 @@ extends ../loggedLayout
 block content
     br
     br
-    h1 Wniosek o auto
+    h1 Moje auta
     p
-    form(name="auto", action="/wniosekAutoNew", method="post")
-      .form-group
-        label
-        .form-group
-          label
-            | Pracodawca reprezentujący Politechnikę:
-          select.form-control(name="aaa")
-            option(value='1')
-              | Pan X
-            option(value='2')
-              | Pan Y
-            option(value='3')
-              | Pan Z
-            option(value='')
-      .form-group
-        label
-          | Wybierz pojazd:
-        select.form-control
-          option(value='1')
-            | Ford Focus 1.6
-          option(value='2')
-            | Volkswagen Golf 1.9
-          option(value='')
-          option(value='')
-      .form-group
-        label
-          | Miejsce podróży:
-        input.form-control(type='text')
-        .form-group
-          label
-            | Czas podróży
-          input.form-control(type='text')
-          .form-group
-            label
-              | Iloczyn przejechanych kilometrow przez stawke:
-            input.form-control(placeholder='zl/km', type='text')
-      .form-group
-        label
-          | Numer polecenia wyjazdu służbowego:
-        input.form-control(type='text')
-      .form-group
-        label
-          | Umowa od dnia:
-        input.form-control(placeholder='DD.MM.RR', type='text')
-      .form-group
-        label
-          | Umowa do dnia:
-        input.form-control(placeholder='DD.MM.RR', type='text')
-br
+        form(name="mojeDane", action="/moje_dane", method="post")
+            // Text input
+            .control-group
+              label.control-label(for='Imie') Imie:
+              .controls
+                input.form-control(name='Imie', placeholder='', required='', type='text', value='#{EditTab.Imie}')
+            // Text input
+            .control-group
+              label.control-label(for='Nazwisko') Nazwisko:
+              .controls
+                input.form-control(name='Nazwisko', placeholder='', required='', type='text', value='#{EditTab.Nazwisko}')
+            // Text input
+            .control-group
+              label.control-label(for='Kontakt') Kontakt:
+              .controls
+                input.form-control(name='Kontakt', placeholder='', required='', type='text', value='#{EditTab.Kontakt}')
+            .control-group
+              label.control-label(for='Stopien') Stopień:
+              .controls
+                input.form-control(name='Stopien', placeholder='', required='', type='text', value='#{EditTab.Stopien}')
+            .control-group
+              label
+                | Przelozony:
+              select.form-control(name="Przelozony")
+                each val in users
+                    if EditTab.Przelozony == val.Id
+                        option(value='#{val.Id}', selected='selected') #{val.Imie} #{val.Nazwisko}
+                    else
+                        option(value='#{val.Id}') #{val.Imie} #{val.Nazwisko}
+            // Button
+            .control-group
+              label.control-label(for='singlebutton-0')
+              .controls
+                button.btn.btn-default(type='submit') Zapisz

@@ -5,27 +5,16 @@ block content
     br
     h1 Przebieg auta
     p
-    form(name="auto", action="/pdf_przebieg", method="GET")
+    form(name="auto", action="/wniosek_auto_przebieg", method="POST")
         .container
           .form-group
             label
               h3
                 | Ewidencja przebiegu pojazdu
                 br
-              |           Jednostka organizacyjna:
-            select.form-control
-              option(value='1')
-                | XYZ
-              option(value='2')
-                | XYZ
-              option(value='')
-              option(value='')
-          .form-group
-          .form-group
-            label
-              | Numer wyjazdu służbowego:
-            input.form-control(type='text')
-          table.table-bordered
+            input.form-control(type='hidden', name='Id', value='#{Id}')
+            input.form-control(type='hidden', name='Tablica', id='Tablica')
+          table.table-bordered(border='1 solid', style='border-style: none; border-spacing: 0px; margin-top: 30px; width:100%')
             tbody
               tr
                 th.tg-031e(style='padding-left:5px; padding-right:5px')
@@ -49,6 +38,14 @@ block content
                   | Wartość
                   br
                 th.tg-031e(style='padding-left:5px; padding-right:5px') Uwagi
+              tr(style='height:5px; text-align: center;')
+                td 1
+                td 2
+                td 3
+                td 4
+                td 5
+                td 6
+                td 7
               tr(style='height:40px')
                 td.tg-031e
                 td.tg-031e
@@ -56,7 +53,7 @@ block content
                 td.tg-031e
                 td.tg-031e
                 td.tg-031e
-                td.tg-031e 
+                td.tg-031e
               tr(style='height:40px')
                 td.tg-031e
                 td.tg-031e
@@ -64,7 +61,7 @@ block content
                 td.tg-031e
                 td.tg-031e
                 td.tg-031e
-                td.tg-031e 
+                td.tg-031e
               tr(style='height:40px')
                 td.tg-031e
                 td.tg-031e
@@ -72,7 +69,7 @@ block content
                 td.tg-031e
                 td.tg-031e
                 td.tg-031e
-                td.tg-031e 
+                td.tg-031e
               tr(style='height:40px')
                 td.tg-031e
                 td.tg-031e
@@ -80,7 +77,7 @@ block content
                 td.tg-031e
                 td.tg-031e
                 td.tg-031e
-                td.tg-031e 
+                td.tg-031e
               tr(style='height:40px')
                 td.tg-031e
                 td.tg-031e
@@ -88,7 +85,7 @@ block content
                 td.tg-031e
                 td.tg-031e
                 td.tg-031e
-                td.tg-031e 
+                td.tg-031e
               tr(style='height:40px')
                 td.tg-031e
                 td.tg-031e
@@ -96,7 +93,7 @@ block content
                 td.tg-031e
                 td.tg-031e
                 td.tg-031e
-                td.tg-031e 
+                td.tg-031e
           .form-group
           button.btn.btn-default(type='submit') Wyślij przebieg pojazdu!
       script. 
@@ -112,4 +109,22 @@ block content
             { 
                 $(e.currentTarget).append("<input type='text'>"); 
             } 
+        }
+        function dataSave(e) 
+        { 
+            $('#Tablica').val($('table').prop('outerHTML'));
+        }
+        $(function() {
+            var previous = $("table").html();
+            $check = function() {
+                console.log(1);
+                if ($("table").html() != previous) {
+                    myOwnFunction();
+                }
+                previous = $("table").html();        
+            }
+            setInterval(function() { $check(); }, 1000);
+        });
+        function myOwnFunction() {
+            $('#Tablica').val($('table').prop('outerHTML'));
         }

@@ -76,6 +76,7 @@
     <Content Include="views\moje\moje_historia.jade" />
     <Content Include="views\moje\moje_auta.jade" />
     <Content Include="views\moje\moje_dane.jade" />
+    <Content Include="views\moje\moje_przebiegi.jade" />
     <Content Include="views\moje\moje_podpiecia.jade" />
     <Content Include="views\moje\moje_oswiadczenia.jade" />
     <Content Include="views\moje\moje_polecenia.jade" />

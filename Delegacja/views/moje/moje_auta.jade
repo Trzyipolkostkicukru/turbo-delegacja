@@ -23,6 +23,8 @@ block content
             td
                 a(href='moje_autaEdit?Id='+val.Id)
                     button.btn.btn-default(type='submit') Edytuj
+                a(href='wniosek_auto_przebieg?Id='+val.Id)
+                    button.btn.btn-default(type='submit') Dodaj przebieg
                 a(href='/moje_autaRemove?Id='+val.Id)
                     button.btn.btn-default(type='submit') Usuń
     h3 Dodaj nowe auto
@@ -81,4 +83,3 @@ block content
               label.control-label(for='singlebutton-0')
               .controls
                 button.btn.btn-default(type='submit', name='Edytuj') Edytuj
-br
